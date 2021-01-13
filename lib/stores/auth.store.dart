@@ -10,7 +10,7 @@ class AuthStore = _AuthStoreBase with _$AuthStore;
 abstract class _AuthStoreBase with Store {
   AuthRepository _authRepository = AuthRepository();
 
-  @observable
+  @observable 
   User user;
 
   @observable

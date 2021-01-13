@@ -1,5 +1,5 @@
 import 'dart:io';
-import '../interceptors/dio_interceptors_auth.dart';
+import '../../../data/network/interceptors/dio_interceptors_auth.dart';
 import 'package:dio/dio.dart';
 import 'package:glutton/glutton.dart';
 

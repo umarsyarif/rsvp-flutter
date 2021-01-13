@@ -1,4 +1,4 @@
-const API_URL = 'http://4cc0a55916e7.ngrok.io/api/';
+const API_URL = 'http://27fbab7338a6.ngrok.io/api/';
 
 const API_VERSION = 'v1';
 
