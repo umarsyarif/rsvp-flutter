@@ -1,9 +1,6 @@
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../helpers/global_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:glutton/glutton.dart';
 import 'package:provider/provider.dart';
 
 import '../../stores/auth.store.dart';
