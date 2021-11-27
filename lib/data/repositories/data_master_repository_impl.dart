@@ -3,25 +3,23 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kopiek_resto/data/data_sources/auth_local_data_source.dart';
-import 'package:kopiek_resto/data/data_sources/auth_remote_data_source.dart';
-import 'package:kopiek_resto/data/models/login_model.dart';
+import 'package:kopiek_resto/data/data_sources/satuan_remote_data_source.dart';
+import 'package:kopiek_resto/data/models/menu_model.dart';
+import 'package:kopiek_resto/data/models/satuan_model.dart';
 import 'package:kopiek_resto/domain/entities/app_error.dart';
-import 'package:kopiek_resto/domain/entities/login_params.dart';
-import 'package:kopiek_resto/domain/entities/register_params.dart';
-import 'package:kopiek_resto/domain/repositories/auth_repository.dart';
+import 'package:kopiek_resto/domain/entities/satuan_params.dart';
+import 'package:kopiek_resto/domain/repositories/data_master_repository.dart';
 
-@LazySingleton(as: AuthRepository)
-class AuthRepositoryImpl implements AuthRepository{
-  final AuthRemoteDataSource _remote;
-  final AuthLocalDataSource _localDataSource;
-  AuthRepositoryImpl(this._remote, this._localDataSource);
+@LazySingleton(as: DataMasterRepository)
+class DataMasterRepositoryImpl implements DataMasterRepository{
+  final SatuanRemoteDataSource _remoteDataSource;
+
+  DataMasterRepositoryImpl(this._remoteDataSource);
   @override
-  Future<Either<AppError, String>> login(LoginParams params) async{
+  Future<Either<AppError, bool>> postSatuan(SatuanParams params)async {
     try {
-      LoginModel model = await _remote.login(params.toJson);
-      await _localDataSource.saveSession(model.user,model.token);
-      return  Right(model.token);
+      bool model = await _remoteDataSource.postSatuan(params.toJson());
+      return  Right(model);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
           message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
@@ -40,10 +38,10 @@ class AuthRepositoryImpl implements AuthRepository{
   }
 
   @override
-  Future<Either<AppError, bool>> checkSession()async {
+  Future<Either<AppError, List<DataSatuan>>> getSatuan() async{
     try {
-      bool model = await _localDataSource.checkLogin();
-      return  Right(model);
+      SatuanModel model = await _remoteDataSource.getSatuan();
+      return  Right(model.data);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
           message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
@@ -57,14 +55,14 @@ class AuthRepositoryImpl implements AuthRepository{
       return Left(
           AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
     } on Exception {
-      return const Left(AppError(AppErrorType.database, message: 'Terjadi kesalahan server'));
+      return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
     }
   }
 
   @override
-  Future<Either<AppError, User>> getDetailUser() async{
+  Future<Either<AppError, bool>> postMenu(FormData data)async {
     try {
-      User model = await _localDataSource.getDetailUser();
+      bool model = await _remoteDataSource.postMenu(data);
       return  Right(model);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
@@ -79,15 +77,15 @@ class AuthRepositoryImpl implements AuthRepository{
       return Left(
           AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
     } on Exception {
-      return const Left(AppError(AppErrorType.database, message: 'Terjadi kesalahan server'));
+      return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
     }
   }
 
   @override
-  Future<Either<AppError, bool>> register(RegisterParams params) async{
+  Future<Either<AppError, List<DataMenu>>> getMenu() async{
     try {
-      bool model = await _remote.register(params.toJson());
-      return  Right(model);
+      MenuModel model = await _remoteDataSource.getMenu();
+      return  Right(model.data);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
           message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
@@ -101,29 +99,7 @@ class AuthRepositoryImpl implements AuthRepository{
       return Left(
           AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
     } on Exception {
-      return const Left(AppError(AppErrorType.database, message: 'Terjadi kesalahan server'));
-    }
-  }
-
-  @override
-  Future<Either<AppError, bool>> logout()async {
-    try {
-      bool model = await _localDataSource.logout();
-      return  Right(model);
-    } on SocketException {
-      return const Left(AppError(AppErrorType.network,
-          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
-    } on DioError catch (e) {
-      if (e.type == DioErrorType.connectTimeout ||
-          e.type == DioErrorType.receiveTimeout ||
-          e.type == DioErrorType.sendTimeout) {
-        return const Left(AppError(AppErrorType.network,
-            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
-      }
-      return Left(
-          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
-    } on Exception {
-      return const Left(AppError(AppErrorType.database, message: 'Terjadi kesalahan server'));
+      return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
     }
   }
 }

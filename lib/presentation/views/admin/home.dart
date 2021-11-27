@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
+import 'package:kopiek_resto/presentation/views/admin/data-master/menu_view.dart';
+import 'package:kopiek_resto/presentation/views/admin/data-master/satuan.dart';
+import 'package:kopiek_resto/presentation/views/admin/data-master/tambah_menu.dart';
+
+import 'dashboard_admin_view.dart';
 
 class HomeAdmin extends StatefulWidget {
   final int index;
@@ -40,10 +45,10 @@ class _HomeAdminState extends State<HomeAdmin> with SingleTickerProviderStateMix
         physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
         children:  [
-          Scaffold(appBar: AppBar(title: Text('Dashboard')),),
-          Scaffold(appBar: AppBar(title: Text('Transaksi')),),
-          Scaffold(appBar: AppBar(title: Text('Data Master')),),
-          Scaffold(appBar: AppBar(title: Text('Pengaturan')),),
+          DashboardAdminView(),
+          MenuView(),
+          const SatuanView(),
+          TambahMenu(),
 
         ],
       ),

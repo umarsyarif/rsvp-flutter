@@ -19,8 +19,7 @@ class ApiClient {
   dynamic requestInterceptor(
       RequestOptions options, RequestInterceptorHandler handler) async {
     debugPrint(options.path);
-    debugPrint(options.data);
-    if (!options.path.contains('login')) {
+    if (!options.path.contains('login')||!options.path.contains('register')) {
       //remove the auxiliary header
       options.headers.remove("requiresToken");
       SharedPreferences sharedPreferences =
@@ -48,6 +47,18 @@ class ApiClient {
           'Accept': 'application/json',
         }),
         data: jsonEncode(data));
+    debugPrint(jsonEncode(data));
+    return jsonDecode(jsonEncode(response.data));
+
+  }
+  dynamic postFormData(String path, FormData data) async {
+    String url = ApiConstants.baseUrl + path;
+    final response = await dio.post(url,
+        options: Options(headers: {
+          // 'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }),
+        data: data);
 
     return jsonDecode(jsonEncode(response.data));
 

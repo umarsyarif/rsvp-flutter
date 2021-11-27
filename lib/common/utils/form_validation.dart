@@ -12,6 +12,14 @@ class FormValidation{
     }
     return null;
   }
+  static String? validateCPassword(String? value,String cPassword){
+    if((value?.length??0)<6){
+      return 'Password minimal 6 karakter';
+    }else if (value!=cPassword){
+      return 'Password tidak sama';
+    }
+    return null;
+  }
   static String? validateEmail(String? value){
     if(value!=null){
       bool isValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);

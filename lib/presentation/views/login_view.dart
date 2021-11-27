@@ -66,6 +66,7 @@ class _LoginViewState extends State<LoginView> {
                     TextFieldWidget(
                       hintText: 'Email',
                       controller: email,
+                      typeInput: TextInputType.emailAddress,
                       validator: FormValidation.validateEmail,
                     ),
                     vSpace(20),
@@ -84,7 +85,9 @@ class _LoginViewState extends State<LoginView> {
                           }
                         }),
                     vSpace(20),
-                    CustomOutlineButton(borderColor: AppColor.primary, label: 'REGISTER', onPressed: (){})
+                    CustomOutlineButton(borderColor: AppColor.primary, label: 'REGISTER', onPressed: (){
+                      Navigator.pushNamed(context, RouteList.register);
+                    })
                   ],
                 ),
               ),
