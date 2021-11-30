@@ -32,6 +32,7 @@ class _TambahMenuState extends State<TambahMenu> {
   String foto='';
   TextEditingController harga =TextEditingController();
   TextEditingController diskon =TextEditingController();
+  TextEditingController stok =TextEditingController();
   String? idSatuan,jenis;
   final _form = GlobalKey<FormState>();
 
@@ -139,6 +140,15 @@ class _TambahMenuState extends State<TambahMenu> {
                         ),
 
                         vSpace(10),
+                        TextFieldWidget(
+                          hintText: 'Stok',
+                          typeInput: TextInputType.number,
+                          controller: stok,
+                          validator: (value) =>
+                              FormValidation.validate(value.toString(), label: 'Stok'),
+                        ),
+
+                        vSpace(10),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 40),
                           child: InkWell(
@@ -200,7 +210,7 @@ class _TambahMenuState extends State<TambahMenu> {
                           onPressed: (){
                             if(_form.currentState?.validate()??false){
                               _menuBloc.add(AddMenuEvent(MenuParams(
-                                nama.text,foto,idSatuan!,jenis!,int.parse(valueNoRp(harga.text)),int.parse(diskon.text)
+                                nama.text,foto,idSatuan!,jenis!,int.parse(valueNoRp(harga.text)),int.parse(diskon.text),int.parse(stok.text)
                               )));
                             }
                           },

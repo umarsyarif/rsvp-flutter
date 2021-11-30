@@ -17,6 +17,7 @@ class TextFieldWidget extends StatelessWidget {
   final Icon? sufixIcon;
   final Widget? suffixAction;
   final bool isInputWhite;
+  final void Function(String?)? onChanged;
   final bool readonly;
   final GestureTapCallback? onTap;
   final FocusNode? focusNode;
@@ -38,7 +39,7 @@ class TextFieldWidget extends StatelessWidget {
         this.validator,
         this.onSaved,
         this.minLines,
-        this.maxLines, this.inputFormatter, this.readonly=false, this.onTap})
+        this.maxLines, this.inputFormatter, this.readonly=false, this.onTap, this.onChanged})
       : super(key: key);
 
   @override
@@ -46,6 +47,7 @@ class TextFieldWidget extends StatelessWidget {
     return TextFormField(
       keyboardType: typeInput,
       onSaved: onSaved,
+      onChanged: onChanged,
       obscureText: isPasswordField,
       focusNode: focusNode,
       obscuringCharacter: '*',

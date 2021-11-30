@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kopiek_resto/common/constants/route_list.dart';
+import 'package:kopiek_resto/common/utils/form_validation.dart';
 import 'package:kopiek_resto/common/utils/string_helper.dart';
+import 'package:kopiek_resto/domain/entities/order_params.dart';
 import 'package:kopiek_resto/presentation/theme/theme.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/widgets/custom_flat_button.dart';
@@ -17,7 +20,7 @@ class _OrderViewState extends State<OrderView> {
   TextEditingController jumlahPelaggan = TextEditingController();
   TextEditingController tanggal = TextEditingController();
   TextEditingController jam = TextEditingController();
-
+  final _form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,59 +31,69 @@ class _OrderViewState extends State<OrderView> {
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              TextFieldWidget(
-                  hintText: 'Jumlah Pelanggan',
-                  typeInput: TextInputType.number,
-                  controller: jumlahPelaggan,
-                maxLength: 2,
-              ),
-              vSpace(10),
-              TextFieldWidget(
-                hintText: 'Jadwal',
-                readonly: true,
-                controller: tanggal,
-                onTap:(){
-                  showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 30))).then((value){
-                        if(value!=null){
-                          tanggal.text = dbDateFormat(value);
-                        }
-                  });
-                }
-              ),
-              vSpace(10),
-              TextFieldWidget(
-                hintText: 'Jam',
+          child: Form(
+            key:_form,
+            child: Column(
+              children: [
+                TextFieldWidget(
+                    hintText: 'Jumlah Orang',
+                    typeInput: TextInputType.number,
+                    controller: jumlahPelaggan,
+                  validator: (value)=>FormValidation.validate(value.toString(),label: 'Jumlah Orang'),
+                  maxLength: 2,
+                ),
+                vSpace(10),
+                TextFieldWidget(
+                  hintText: 'Jadwal',
                   readonly: true,
-                  controller: jam,
+                  controller: tanggal,
+                    validator: (value)=>FormValidation.validate(value.toString(),label: 'Tanggal'),
                   onTap:(){
-                    showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                      initialEntryMode: TimePickerEntryMode.dial,
-                      builder: (context,child){
-                        return MediaQuery(
-                          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-                          child: child!,
-                        );
-                      }
-                    ).then((value){
-                      if(value!=null){
-                        jam.text = '${value.hour}:${value.minute}';
-                      }
+                    showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime.now().add(const Duration(days: 30))).then((value){
+                          if(value!=null){
+                            tanggal.text = dbDateFormat(value);
+                          }
                     });
                   }
-              ),
-              vSpace(20),
-              CustomFlatButton(backgroundColor: AppColor.primary, label: 'SIMPAN', onPressed: (){
-
-              })
-            ],
+                ),
+                vSpace(10),
+                TextFieldWidget(
+                  hintText: 'Jam',
+                    readonly: true,
+                    controller: jam,
+                    validator: (value)=>FormValidation.validate(value.toString(),label: 'Jam'),
+                    onTap:(){
+                      showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                        initialEntryMode: TimePickerEntryMode.dial,
+                        builder: (context,child){
+                          return MediaQuery(
+                            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                            child: child!,
+                          );
+                        }
+                      ).then((value){
+                        if(value!=null){
+                          jam.text = '${value.hour.toString().length==1?'0${value.hour}':value.hour}:${value.minute.toString().length==1?'0${value.minute}':value.minute}';
+                        }
+                      });
+                    }
+                ),
+                vSpace(20),
+                CustomFlatButton(backgroundColor: AppColor.primary, label: 'SIMPAN', onPressed: (){
+                  if(_form.currentState?.validate()??false){
+                        Navigator.pushNamed(context, RouteList.detailOrder,
+                            arguments: OrderParams(widget.jenis, tanggal.text,
+                                jam.text, int.parse(jumlahPelaggan.text)));
+                      }
+                    })
+              ],
+            ),
           ),
         ),
       ),

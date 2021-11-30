@@ -21,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository{
     try {
       LoginModel model = await _remote.login(params.toJson);
       await _localDataSource.saveSession(model.user,model.token);
-      return  Right(model.token);
+      return  Right(model.user.role);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
           message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));

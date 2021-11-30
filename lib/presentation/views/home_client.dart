@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/views/client/dashboard.dart';
 
+import 'client/account.dart';
+
 class HomeClient extends StatefulWidget {
   final int index;
   const HomeClient({Key? key, this.index=0}) : super(key: key);
@@ -44,7 +46,7 @@ class _HomeClientState extends State<HomeClient> with SingleTickerProviderStateM
           DashboardClient(),
           Text('oke'),
           Text('oke'),
-          Text('oke'),
+          AccountView(),
         ],
       ),
     );

@@ -20,12 +20,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<StartLogin>((event, emit) async{
       loadingBloc.add(StartLoading());
       final eith = await login.call(event.params);
-      eith.fold((l) => emit(LoginFailure(l.message)), (r) {
-        authBloc.add(AppStart());
-        final authState = authBloc.state;
-        if(authState is AuthAuthenticated){
-          emit(LoginSuccess(authState.role));
-        }
+      eith.fold((l) => emit(LoginFailure(l.message)), (r) async{
+        emit(LoginSuccess(r));
       });
       loadingBloc.add(FinishLoading());
       emit(LoginInitial());

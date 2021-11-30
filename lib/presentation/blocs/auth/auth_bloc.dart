@@ -22,22 +22,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CheckSession check;
   final GetDetailUser user;
 
-  AuthBloc(this.loadingBloc, this.login, this.check, this.user) : super(AuthInitial()) {
-    on<AppStart>((event,emit)async{
+  AuthBloc(this.loadingBloc, this.login, this.check, this.user)
+      : super(AuthInitial()) {
+    on<AppStart>((event, emit) async {
       emit(AuthLoading());
       final cek = await check.call(NoParams());
       late bool isLogin;
-      cek.fold((l) => emit(AuthUnauthenticated()), (r){
+      cek.fold((l) => emit(AuthUnauthenticated()), (r) {
         isLogin = r;
       });
-      if(cek.isRight()){
-        if(!isLogin){
+      if (cek.isRight()) {
+        if (!isLogin) {
           emit(AuthUnauthenticated());
-        }
-        else{
+        } else {
           final eith = await user.call(NoParams());
-          eith.fold((l) => emit(AuthUnauthenticated()),
-                  (r) => emit(AuthAuthenticated(r.role)));
+          eith.fold((l) {
+            emit(AuthUnauthenticated());
+          }, (r) {
+            emit(AuthAuthenticated(r.role));
+          });
         }
       }
     });
@@ -45,7 +48,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       loadingBloc.add(StartLoading());
       final eith = await login.call(LoginParams('ardiprm', 'icefoxpower97'));
       loadingBloc.add(FinishLoading());
-      eith.fold((l) => EasyLoading.showError(l.message), (r) => EasyLoading.showSuccess('berhasil'));
+      eith.fold((l) => EasyLoading.showError(l.message),
+          (r) => EasyLoading.showSuccess('berhasil'));
     });
   }
 }

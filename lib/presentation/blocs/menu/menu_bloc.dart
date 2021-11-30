@@ -40,6 +40,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         form.fields.add(MapEntry('diskon', event.params.diskon.toString()));
         form.fields.add(MapEntry('id_satuan', event.params.idSatuan));
         form.fields.add(MapEntry('tipe', event.params.tipe));
+        form.fields.add(MapEntry('stok', event.params.stok.toString()));
         final eith = await menu.call(form);
         eith.fold((l) => currentState.copyWith(status: Status.failure,errMessage: l.message), (r) => currentState.copyWith(status: Status.success));
       }
