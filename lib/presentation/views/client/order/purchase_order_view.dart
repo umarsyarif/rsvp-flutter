@@ -41,6 +41,12 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _checkoutBloc.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_)=>_checkoutBloc,

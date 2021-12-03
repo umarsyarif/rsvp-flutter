@@ -9,4 +9,6 @@ class RouteList{
   static const String order = '/order';
   static const String detailOrder = '/order/detail';
   static const String checkout = '/order/checkout';
+  static const String addMenu = '/menu/add';
+  static const String detailOrderAdmin = '/order/detail/admin';
 }

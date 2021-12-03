@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kopiek_resto/common/constants/route_list.dart';
 import 'package:kopiek_resto/common/utils/string_helper.dart';
 import 'package:kopiek_resto/data/models/menu_model.dart';
 import 'package:kopiek_resto/di/get_it.dart';
 import 'package:kopiek_resto/presentation/blocs/menu/menu_bloc.dart';
+import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
 
@@ -36,9 +38,9 @@ class _MenuViewState extends State<MenuView> {
     return BlocProvider(
       create: (_)=>_menuBloc,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Daftar Menu'),
-        ),
+        floatingActionButton: FloatingActionButton.extended(onPressed: (){
+          Navigator.pushNamed(context, RouteList.addMenu);
+        }, label: const Text('TAMBAH'),backgroundColor: AppColor.primary,icon: const Icon(Icons.add),),
         body: BlocBuilder<MenuBloc,MenuState>(
           builder: (contex,state){
             if(state is MenuLoading){

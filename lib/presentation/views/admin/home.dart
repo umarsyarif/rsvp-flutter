@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
+import 'package:kopiek_resto/presentation/views/admin/data-master/data_master_tab_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/data-master/menu_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/data-master/satuan.dart';
 import 'package:kopiek_resto/presentation/views/admin/data-master/tambah_menu.dart';
+import 'package:kopiek_resto/presentation/views/admin/konfigurasi.dart';
+import 'package:kopiek_resto/presentation/views/admin/transaksi/transaksi_view.dart';
 
 import 'dashboard_admin_view.dart';
 
@@ -46,10 +49,9 @@ class _HomeAdminState extends State<HomeAdmin> with SingleTickerProviderStateMix
         controller: _tabController,
         children:  [
           DashboardAdminView(),
-          MenuView(),
-          const SatuanView(),
-          TambahMenu(),
-
+          TransaksiView(),
+          const DataMasterTabView(),
+          KonfigurasiView(),
         ],
       ),
     );

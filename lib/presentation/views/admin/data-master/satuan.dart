@@ -35,9 +35,6 @@ class _SatuanViewState extends State<SatuanView> {
     return BlocProvider(
       create: (_) => _satuanBloc,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Satuan'),
-        ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             showModalBottomSheet(

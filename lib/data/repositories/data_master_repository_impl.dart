@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kopiek_resto/data/data_sources/satuan_remote_data_source.dart';
+import 'package:kopiek_resto/data/models/konfigurasi_model.dart';
 import 'package:kopiek_resto/data/models/menu_model.dart';
 import 'package:kopiek_resto/data/models/satuan_model.dart';
 import 'package:kopiek_resto/domain/entities/app_error.dart';
@@ -85,6 +86,28 @@ class DataMasterRepositoryImpl implements DataMasterRepository{
   Future<Either<AppError, List<DataMenu>>> getMenu() async{
     try {
       MenuModel model = await _remoteDataSource.getMenu();
+      return  Right(model.data);
+    } on SocketException {
+      return const Left(AppError(AppErrorType.network,
+          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const Left(AppError(AppErrorType.network,
+            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+      }
+      return Left(
+          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
+    } on Exception {
+      return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
+    }
+  }
+
+  @override
+  Future<Either<AppError, DataKonfigurasi>> getKonfigurasi() async{
+    try {
+      KonfigurasiModel model = await _remoteDataSource.getKonfigurasi();
       return  Right(model.data);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
