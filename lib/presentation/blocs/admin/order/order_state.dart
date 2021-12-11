@@ -19,8 +19,14 @@ class OrderLoaded extends OrderState {
 }
 class OrderDetailLoaded extends OrderState{
   final DataOrder data;
-
-  const OrderDetailLoaded(this.data);
+  final Status status;
+  final String errMessage;
+  final User user;
+  @override
+  List<Object> get props => [data,status,errMessage,user];
+  const OrderDetailLoaded(this.data, this.status,  this.user, {this.errMessage=''});
+  OrderDetailLoaded copyWith({DataOrder? data,Status? status,String? errMessage,User? user})=>
+      OrderDetailLoaded(data??this.data, status??this.status, user??this.user,errMessage: errMessage??this.errMessage);
 }
 class OrderFailure extends OrderState {
   final String message;

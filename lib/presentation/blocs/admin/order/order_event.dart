@@ -5,9 +5,18 @@ abstract class OrderEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-class FetchOrderEvent extends OrderEvent{}
+class FetchOrderEvent extends OrderEvent{
+  final String status;
+
+  const FetchOrderEvent(this.status);
+}
 class FetchDetailOrderEvent extends OrderEvent{
   final int id;
 
   const FetchDetailOrderEvent(this.id);
+}
+class UpdateStatusOrderEvent extends OrderEvent{
+  final UpdateStatusParams params;
+
+  const UpdateStatusOrderEvent(this.params);
 }

@@ -17,13 +17,14 @@ class OrderDetailLoaded extends OrderDetailState {
   final List<QuantityOrderParams> minuman;
   final Status status;
   final String errMessage;
+  final User user;
 
-  const OrderDetailLoaded(this.makanan,this.minuman, this.status, {this.errMessage=''});
+  const OrderDetailLoaded(this.makanan,this.minuman, this.status, this.user, {this.errMessage=''});
   @override
-  List<Object> get props => [makanan,minuman, status, errMessage];
+  List<Object> get props => [makanan,minuman, status, errMessage,user];
 
   OrderDetailLoaded copyWith({List<QuantityOrderParams>? makanan,List<QuantityOrderParams>? minuman ,Status? status, String? errMessage})=>
-      OrderDetailLoaded(makanan??this.makanan,minuman??this.minuman, status??this.status,errMessage: errMessage??this.errMessage);
+      OrderDetailLoaded(makanan??this.makanan,minuman??this.minuman, status??this.status,user,errMessage: errMessage??this.errMessage);
 
 }
 class OrderDetailFailure extends OrderDetailState {

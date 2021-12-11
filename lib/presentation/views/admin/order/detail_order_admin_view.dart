@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:kopiek_resto/common/constants/enums.dart';
+import 'package:kopiek_resto/common/constants/route_list.dart';
 import 'package:kopiek_resto/common/utils/string_helper.dart';
 import 'package:kopiek_resto/di/get_it.dart';
+import 'package:kopiek_resto/domain/entities/update_status_params.dart';
 import 'package:kopiek_resto/presentation/blocs/admin/order/order_bloc.dart';
 import 'package:kopiek_resto/presentation/theme/theme.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
@@ -35,7 +39,23 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
         appBar: AppBar(
           title: const Text('Detail Order'),
         ),
-        body: BlocBuilder<OrderBloc, OrderState>(
+        body: BlocConsumer<OrderBloc, OrderState>(
+          listener: (context,state){
+            if(state is OrderDetailLoaded){
+              if(state.status == Status.success){
+                if(state.user.role=='pelanggan'){
+                  EasyLoading.showSuccess('Berhasil membayar pesanan');
+                  Navigator.pushNamedAndRemoveUntil(context, RouteList.homeClient, (route) => false);
+                }else{
+                  EasyLoading.showSuccess('Berhasil menyelesaikan pesanan');
+                  Navigator.pushNamedAndRemoveUntil(context, RouteList.homeAdmin, (route) => false);
+                }
+              }else if(state.status == Status.failure){
+                EasyLoading.showError(state.errMessage);
+
+              }
+            }
+          },
           builder: (context, state) {
             if (state is OrderLoading) {
               return const Center(child: LoadingCircle());
@@ -59,10 +79,20 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
                               child: ListTile(
+                                leading: const Icon(Icons.person),
+                                title: Text(
+                                    state.data.pengguna.nama),
+                                subtitle: Text(state.data.pengguna.noHp),
+                              ),
+                            ),
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: ListTile(
                                 title: Text(state.data.tipe.toUpperCase()),
                                 subtitle: Text(
                                     '${state.data.jam}/${getDateDashboard(state.data.tanggal)}'),
-                                trailing: Text(valueRupiah(state.data.total)),
+                                trailing: Text(valueRupiah(state.data.total),style:blackTextStyle.copyWith(fontWeight: bold)),
                               ),
                             ),
                             vSpace(20),
@@ -77,6 +107,7 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                                     .map((e) => Column(
                                           children: [
                                             ListTile(
+                                              leading:ClipRRect(child: Image.network(e.menu.foto),borderRadius: BorderRadius.circular(10),),
                                               title: Text(e.menu.nama),
                                               subtitle: Text(
                                                   'catatan : ${e.catatan ?? '-'}'),
@@ -132,18 +163,34 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                       ),
                     ),
                   ),
-                  Positioned(
+                  state.user.role=='admin'&&state.data.statusOrder[0].status=='sudah bayar'? Positioned(
                     bottom: 0,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.all(16),
                       child: CustomOutlineButton(
-                        onPressed: () {},
-                        label: 'KONFIRMASI',
+                        onPressed: () {
+                          _orderBloc.add(UpdateStatusOrderEvent(UpdateStatusParams(state.data.id,'selesai')));
+                        },
+                        label: 'SELESAIKAN PESANAN',
                         borderColor: AppColor.primary,
                       ),
                     ),
-                  ),
+                  ):const SizedBox(),
+                  state.user.role=='pelanggan'&&(state.data.statusOrder[0].status=='diproses'||state.data.statusOrder[0].status=='reschedule')? Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(16),
+                      child: CustomOutlineButton(
+                        onPressed: () {
+                          _orderBloc.add(UpdateStatusOrderEvent(UpdateStatusParams(state.data.id,'sudah bayar')));
+                        },
+                        label: 'KONFIRMASI PEMBAYARAN',
+                        borderColor: AppColor.primary,
+                      ),
+                    ),
+                  ):const SizedBox(),
                 ],
               );
             }

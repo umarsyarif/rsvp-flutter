@@ -61,19 +61,27 @@ class _DashboardClientState extends State<DashboardClient> {
                              ],
                            ),
                          ),
-                         Column(
-                           children: [
-                             Icon(Icons.receipt),
-                             vSpace(10),
-                             Text('Voucher')
-                           ],
+                         InkWell(
+
+                           child: Column(
+                             children: [
+                               Icon(Icons.receipt),
+                               vSpace(10),
+                               Text('Voucher')
+                             ],
+                           ),
                          ),
-                         Column(
-                           children: [
-                             Icon(Icons.payments),
-                             vSpace(10),
-                             Text('My Point')
-                           ],
+                         InkWell(
+                           onTap: (){
+                             Navigator.pushNamed(context, RouteList.riwayatPoin);
+                           },
+                           child: Column(
+                             children: [
+                               Icon(Icons.payments),
+                               vSpace(10),
+                               Text('My Point')
+                             ],
+                           ),
                          ),
                        ],
                      )

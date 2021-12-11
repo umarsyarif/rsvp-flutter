@@ -5,6 +5,7 @@ import 'package:kopiek_resto/presentation/views/admin/data-master/menu_view.dart
 import 'package:kopiek_resto/presentation/views/admin/data-master/satuan.dart';
 import 'package:kopiek_resto/presentation/views/admin/data-master/tambah_menu.dart';
 import 'package:kopiek_resto/presentation/views/admin/konfigurasi.dart';
+import 'package:kopiek_resto/presentation/views/admin/transaksi/transaksi_tab_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/transaksi/transaksi_view.dart';
 
 import 'dashboard_admin_view.dart';
@@ -49,7 +50,7 @@ class _HomeAdminState extends State<HomeAdmin> with SingleTickerProviderStateMix
         controller: _tabController,
         children:  [
           DashboardAdminView(),
-          TransaksiView(),
+          TransaksiTabView(),
           const DataMasterTabView(),
           KonfigurasiView(),
         ],

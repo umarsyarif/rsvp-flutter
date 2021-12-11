@@ -11,4 +11,5 @@ class RouteList{
   static const String checkout = '/order/checkout';
   static const String addMenu = '/menu/add';
   static const String detailOrderAdmin = '/order/detail/admin';
+  static const String riwayatPoin = '/riwayat-poin';
 }

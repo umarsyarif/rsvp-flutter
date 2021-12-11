@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
+import 'package:kopiek_resto/presentation/views/admin/transaksi/transaksi_view.dart';
 import 'package:kopiek_resto/presentation/views/client/dashboard.dart';
 
+import 'admin/transaksi/transaksi_tab_view.dart';
 import 'client/account.dart';
 
 class HomeClient extends StatefulWidget {
@@ -44,7 +46,7 @@ class _HomeClientState extends State<HomeClient> with SingleTickerProviderStateM
         controller: _tabController,
         children:  [
           DashboardClient(),
-          Text('oke'),
+          TransaksiTabView(),
           Text('oke'),
           AccountView(),
         ],
