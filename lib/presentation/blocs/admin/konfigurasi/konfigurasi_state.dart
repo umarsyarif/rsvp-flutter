@@ -9,6 +9,9 @@ abstract class KonfigurasiState extends Equatable {
 class KonfigurasiInitial extends KonfigurasiState {
 
 }
+class KonfigurasiLogout extends KonfigurasiState {
+
+}
 class KonfigurasiLoading extends KonfigurasiState {
 
 }

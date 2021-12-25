@@ -13,6 +13,10 @@ class CheckoutLoading extends CheckoutState {
 
 }
 class CheckoutSuccess extends CheckoutState {
+  final String id;
+
+  CheckoutSuccess(this.id);
+
 
 }
 class CheckoutFailure extends CheckoutState {

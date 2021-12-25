@@ -7,6 +7,7 @@ import 'package:kopiek_resto/presentation/views/admin/order/detail_order_admin_v
 import 'package:kopiek_resto/presentation/views/client/order/detail_order_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/order_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/purchase_order_view.dart';
+import 'package:kopiek_resto/presentation/views/client/order/web_payment_view.dart';
 import 'package:kopiek_resto/presentation/views/client/poin/poin_view.dart';
 import 'package:kopiek_resto/presentation/views/home_client.dart';
 import 'package:kopiek_resto/presentation/views/login_view.dart';
@@ -23,7 +24,7 @@ class AppRouter{
       case RouteList.homeAdmin:
         return MaterialPageRoute(builder: (_)=>const HomeAdmin());
       case RouteList.homeClient:
-        return MaterialPageRoute(builder: (_)=>const HomeClient());
+        return MaterialPageRoute(builder: (_)=> HomeClient());
       case RouteList.register:
         return MaterialPageRoute(builder: (_)=>const RegisterView());
       case RouteList.addMenu:
@@ -36,6 +37,8 @@ class AppRouter{
         return MaterialPageRoute(builder: (_)=> DetailOrderAdminView(id: settings.arguments as int,));
       case RouteList.riwayatPoin:
         return MaterialPageRoute(builder: (_)=> PoinView());
+      case RouteList.makePayment:
+        return MaterialPageRoute(builder: (_)=> WebPaymentView(id: settings.arguments.toString(),));
       case RouteList.checkout:
         Map data = settings.arguments as Map;
         return MaterialPageRoute(builder: (_)=> PurchaseOrderView(makanan: data['makanan'],minuman: data['minuman'],orderParams: data['order'],));

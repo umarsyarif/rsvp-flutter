@@ -18,9 +18,9 @@ class OrderRepositoryImpl implements OrderRepository{
 
   OrderRepositoryImpl(this._dataSource);
   @override
-  Future<Either<AppError, bool>> postOrder(PurchaseOrderParams params)async {
+  Future<Either<AppError, String>> postOrder(PurchaseOrderParams params)async {
     try {
-      bool model = await _dataSource.postOrder(params.toJson());
+      String model = await _dataSource.postOrder(params.toJson());
       return  Right(model);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
@@ -109,6 +109,28 @@ class OrderRepositoryImpl implements OrderRepository{
   Future<Either<AppError, List<DataRiwayatPoin>>> getRiwayatPoin(String idPengguna)async {
     try {
       List<DataRiwayatPoin> model = await _dataSource.getRiwayatPoin(idPengguna);
+      return  Right(model);
+    } on SocketException {
+      return const Left(AppError(AppErrorType.network,
+          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const Left(AppError(AppErrorType.network,
+            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+      }
+      return Left(
+          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
+    } on Exception {
+      return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
+    }
+  }
+
+  @override
+  Future<Either<AppError, int>> getCountOrder(String status)async {
+    try {
+      int model = await _dataSource.getCountOrder(status);
       return  Right(model);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,

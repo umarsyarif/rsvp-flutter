@@ -60,7 +60,9 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
               EasyLoading.showError(state.message);
             }else if (state is CheckoutSuccess){
               EasyLoading.showSuccess('Berhasil checkout');
-              Navigator.pushNamedAndRemoveUntil(context, RouteList.homeClient, (route) => false);
+              Navigator.pushNamed(context, RouteList.makePayment,arguments: state.id).then((value){
+                Navigator.pushNamedAndRemoveUntil(context, RouteList.homeClient, (route) => false);
+              });
             }
           },
           child: SizedBox(

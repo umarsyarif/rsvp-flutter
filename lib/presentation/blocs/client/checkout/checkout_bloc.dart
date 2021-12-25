@@ -20,7 +20,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       _loadingBloc.add(StartLoading());
       emit(CheckoutLoading());
       final eith = await order.call(event.params);
-      eith.fold((l) => emit(CheckoutFailure(l.message)), (r) => emit(CheckoutSuccess()));
+      eith.fold((l) => emit(CheckoutFailure(l.message)), (r) => emit(CheckoutSuccess(r)));
       _loadingBloc.add(FinishLoading());
     });
   }

@@ -7,11 +7,12 @@ import 'package:kopiek_resto/data/models/riwayat_poin_model.dart';
 import 'package:kopiek_resto/domain/entities/list_order_params.dart';
 
 abstract class OrderRemoteDataSource{
-  Future<bool> postOrder(Map<String,dynamic> data);
+  Future<String> postOrder(Map<String,dynamic> data);
   Future<List<DataOrder>> getAllMenu(ListOrderParams params);
   Future<DataOrder> getDetailMenu(int id);
   Future<bool> updateStatus(Map<String,dynamic> data);
   Future<List<DataRiwayatPoin>> getRiwayatPoin(String idPengguna);
+  Future<int> getCountOrder(String status);
 }
 @LazySingleton(as: OrderRemoteDataSource)
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource{
@@ -19,9 +20,9 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource{
 
   OrderRemoteDataSourceImpl(this._client);
   @override
-  Future<bool> postOrder(Map<String, dynamic> data)async {
-    await _client.post('/order', data);
-    return true;
+  Future<String> postOrder(Map<String, dynamic> data)async {
+    final res =  await _client.post('/order', data);
+    return res['data'].toString();
   }
 
   @override
@@ -51,4 +52,9 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource{
     return model.data;
   }
 
+  @override
+  Future<int> getCountOrder(String status)async {
+    final res = await _client.get('/order/count/$status');
+    return int.parse(res['data'].toString());
+  }
 }

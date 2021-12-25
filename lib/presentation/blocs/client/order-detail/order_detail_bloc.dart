@@ -35,6 +35,10 @@ class OrderDetailBloc extends Bloc<OrderDetailEvent, OrderDetailState> {
       eith.fold(
           (l) => emit(OrderDetailFailure(l.message)),
           (r) {
+            r = r.map((e){
+              e.harga = (e.harga - ((e.diskon*e.harga)/100)).ceil();
+              return e;
+            }).toList();
             List<QuantityOrderParams> quantityMakanan = [];
             List<QuantityOrderParams> quantityMinuman = [];
             quantityMakanan = r.where((element) => element.tipe == 'makanan').map((e) => QuantityOrderParams(e, 0)).toList();

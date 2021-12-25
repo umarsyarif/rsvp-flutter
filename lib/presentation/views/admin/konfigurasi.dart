@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kopiek_resto/common/constants/route_list.dart';
 import 'package:kopiek_resto/di/get_it.dart';
 import 'package:kopiek_resto/presentation/blocs/admin/konfigurasi/konfigurasi_bloc.dart';
+import 'package:kopiek_resto/presentation/theme/theme.dart';
+import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
 
@@ -36,7 +39,13 @@ class _KonfigurasiViewState extends State<KonfigurasiView> {
         appBar: AppBar(
           title: const Text('Pengaturan'),
         ),
-        body: BlocBuilder<KonfigurasiBloc,KonfigurasiState>(
+        body: BlocConsumer<KonfigurasiBloc,KonfigurasiState>(
+          listener:(context,state){
+            if(state is KonfigurasiLogout){
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RouteList.login, (route) => false);
+            }
+          },
           builder:(context,state){
             if(state is KonfigurasiLoading){
               return const Center(child:LoadingCircle());
@@ -59,6 +68,13 @@ class _KonfigurasiViewState extends State<KonfigurasiView> {
                         leading: Icon(Icons.timer),
                         title: Text('Jam Tutup'),
                         trailing: Text(state.data.tutup),
+                      ),
+                      ListTile(
+                        leading: const CircleAvatar(child: Icon(Icons.logout,color: Colors.white,),backgroundColor: AppColor.primary,),
+                        title: Text('Logout',style: blackTextStyle.copyWith(fontWeight: bold),),
+                        onTap: (){
+                          _konfigurasiBloc.add(LogoutEvent());
+                        },
                       ),
                     ],
                   ),

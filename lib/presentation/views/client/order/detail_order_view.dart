@@ -91,44 +91,49 @@ class _DetailOrderViewState extends State<DetailOrderView> with SingleTickerProv
                               itemCount: state.makanan.length,
                               itemBuilder: (context,index){
                                 DataMenu data = state.makanan[index].menu;
-                                return Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(child: Image.network(data.foto,height: 75,),flex: 4,),
-                                      Spacer(),
-                                      Expanded(child: Column(
-                                        crossAxisAlignment:CrossAxisAlignment.start,
+                                return Column(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(data.nama),
-                                          Text(valueRupiah(data.harga)),
+                                          Expanded(child: Image.network(data.foto,height: 75,),flex: 4,),
+                                          Spacer(),
+                                          Expanded(child: Column(
+                                            crossAxisAlignment:CrossAxisAlignment.start,
+                                            children: [
+                                              Text(data.nama),
+                                              Text(valueRupiah(data.harga)),
+                                            ],
+                                          ),flex: 8,),
+
+                                          Expanded(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                IconButton(icon: Icon(Icons.add_circle_outline),onPressed: (){
+                                                  state.makanan[index].jumlah+=1;
+                                                  setState(() {
+
+                                                  });
+                                                },),
+                                                Text(state.makanan[index].jumlah.toString()),
+                                                IconButton(icon: Icon(Icons.remove_circle_outline),onPressed: (){
+                                                  if(state.makanan[index].jumlah > 0){
+                                                      state.makanan[index].jumlah -= 1;
+                                                      setState(() {});
+                                                    }
+                                                  },),
+                                              ],
+                                            ),
+                                            flex: 8,
+                                          ),
                                         ],
-                                      ),flex: 8,),
-
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [
-                                            IconButton(icon: Icon(Icons.add_circle_outline),onPressed: (){
-                                              state.makanan[index].jumlah+=1;
-                                              setState(() {
-
-                                              });
-                                            },),
-                                            Text(state.makanan[index].jumlah.toString()),
-                                            IconButton(icon: Icon(Icons.remove_circle_outline),onPressed: (){
-                                              if(state.makanan[index].jumlah > 0){
-                                                  state.makanan[index].jumlah -= 1;
-                                                  setState(() {});
-                                                }
-                                              },),
-                                          ],
-                                        ),
-                                        flex: 8,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Divider(),
+                                  ],
                                 );
                               },
                             ),
@@ -140,46 +145,51 @@ class _DetailOrderViewState extends State<DetailOrderView> with SingleTickerProv
                               itemCount: state.minuman.length,
                               itemBuilder: (context,index){
                                 DataMenu data = state.minuman[index].menu;
-                                return Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(child: Image.network(data.foto,height: 75,),flex: 4,),
-                                      Spacer(),
-                                      Expanded(child: Column(
-                                        crossAxisAlignment:CrossAxisAlignment.start,
+                                return Column(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(data.nama),
-                                          Text(valueRupiah(data.harga)),
+                                          Expanded(child: Image.network(data.foto,height: 75,),flex: 4,),
+                                          Spacer(),
+                                          Expanded(child: Column(
+                                            crossAxisAlignment:CrossAxisAlignment.start,
+                                            children: [
+                                              Text(data.nama),
+                                              Text(valueRupiah(data.harga)),
+                                            ],
+                                          ),flex: 8,),
+
+                                          Expanded(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                IconButton(icon: Icon(Icons.add_circle_outline),onPressed: (){
+                                                  state.minuman[index].jumlah+=1;
+                                                  setState(() {
+
+                                                  });
+                                                },),
+                                                Text(state.minuman[index].jumlah.toString()),
+                                                IconButton(icon: Icon(Icons.remove_circle_outline),onPressed: (){
+                                                  if(state.minuman[index].jumlah>0){
+                                                      state.minuman[index].jumlah -= 1;
+                                                    }
+                                                    setState(() {
+
+                                                  });
+                                                },),
+                                              ],
+                                            ),
+                                            flex: 8,
+                                          ),
                                         ],
-                                      ),flex: 8,),
-
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [
-                                            IconButton(icon: Icon(Icons.add_circle_outline),onPressed: (){
-                                              state.minuman[index].jumlah+=1;
-                                              setState(() {
-
-                                              });
-                                            },),
-                                            Text(state.minuman[index].jumlah.toString()),
-                                            IconButton(icon: Icon(Icons.remove_circle_outline),onPressed: (){
-                                              if(state.minuman[index].jumlah>0){
-                                                  state.minuman[index].jumlah -= 1;
-                                                }
-                                                setState(() {
-
-                                              });
-                                            },),
-                                          ],
-                                        ),
-                                        flex: 8,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Divider()
+                                  ],
                                 );
                               },
                             ),

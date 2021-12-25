@@ -6,3 +6,4 @@ abstract class HomeAdminEvent extends Equatable {
   List<Object> get props => [];
 }
 class LogoutEvent extends HomeAdminEvent{}
+class FetchHomeAdmin extends HomeAdminEvent{}

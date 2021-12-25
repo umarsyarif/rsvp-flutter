@@ -13,42 +13,43 @@ import '../data/data_sources/auth_remote_data_source.dart' as _i4;
 import '../data/data_sources/order_remote_data_source.dart' as _i13;
 import '../data/data_sources/satuan_remote_data_source.dart' as _i19;
 import '../data/repositories/auth_repository_impl.dart' as _i7;
-import '../data/repositories/data_master_repository_impl.dart' as _i25;
+import '../data/repositories/data_master_repository_impl.dart' as _i26;
 import '../data/repositories/order_repository_impl.dart' as _i15;
 import '../domain/repositories/auth_repository.dart' as _i6;
-import '../domain/repositories/data_master_repository.dart' as _i24;
+import '../domain/repositories/data_master_repository.dart' as _i25;
 import '../domain/repositories/order_repository.dart' as _i14;
 import '../domain/usecases/auth/check_session.dart' as _i8;
 import '../domain/usecases/auth/get_detail_user.dart' as _i9;
 import '../domain/usecases/auth/login.dart' as _i11;
 import '../domain/usecases/auth/logout.dart' as _i12;
 import '../domain/usecases/auth/register.dart' as _i17;
-import '../domain/usecases/client/get_riwayat_poin.dart' as _i30;
-import '../domain/usecases/data-master/get_konfigurasi.dart' as _i28;
-import '../domain/usecases/data-master/get_menu.dart' as _i29;
-import '../domain/usecases/data-master/get_satuan.dart' as _i31;
-import '../domain/usecases/data-master/post_menu.dart' as _i37;
-import '../domain/usecases/data-master/post_satuan.dart' as _i38;
-import '../domain/usecases/order/get_all_order.dart' as _i26;
-import '../domain/usecases/order/get_detail_order.dart' as _i27;
+import '../domain/usecases/client/get_riwayat_poin.dart' as _i31;
+import '../domain/usecases/data-master/get_konfigurasi.dart' as _i29;
+import '../domain/usecases/data-master/get_menu.dart' as _i30;
+import '../domain/usecases/data-master/get_satuan.dart' as _i32;
+import '../domain/usecases/data-master/post_menu.dart' as _i38;
+import '../domain/usecases/data-master/post_satuan.dart' as _i39;
+import '../domain/usecases/order/count_order.dart' as _i24;
+import '../domain/usecases/order/get_all_order.dart' as _i27;
+import '../domain/usecases/order/get_detail_order.dart' as _i28;
 import '../domain/usecases/order/post_order.dart' as _i16;
 import '../domain/usecases/order/update_status.dart' as _i20;
-import '../presentation/blocs/admin/home/home_admin_bloc.dart' as _i32;
-import '../presentation/blocs/admin/konfigurasi/konfigurasi_bloc.dart' as _i33;
-import '../presentation/blocs/admin/order/order_bloc.dart' as _i35;
+import '../presentation/blocs/admin/home/home_admin_bloc.dart' as _i33;
+import '../presentation/blocs/admin/konfigurasi/konfigurasi_bloc.dart' as _i34;
+import '../presentation/blocs/admin/order/order_bloc.dart' as _i36;
 import '../presentation/blocs/auth/auth_bloc.dart' as _i22;
 import '../presentation/blocs/client/account/account_bloc.dart' as _i21;
 import '../presentation/blocs/client/checkout/checkout_bloc.dart' as _i23;
 import '../presentation/blocs/client/order-detail/order_detail_bloc.dart'
-    as _i36;
+    as _i37;
 import '../presentation/blocs/client/riwayat-poin/riwayat_poin_bloc.dart'
-    as _i39;
+    as _i40;
 import '../presentation/blocs/loading/loading_bloc.dart' as _i10;
-import '../presentation/blocs/login/login_bloc.dart' as _i34;
-import '../presentation/blocs/menu/menu_bloc.dart' as _i41;
+import '../presentation/blocs/login/login_bloc.dart' as _i35;
+import '../presentation/blocs/menu/menu_bloc.dart' as _i42;
 import '../presentation/blocs/register/register_bloc.dart' as _i18;
 import '../presentation/blocs/satuan/satuan_bloc.dart'
-    as _i40; // ignore_for_file: unnecessary_lambdas
+    as _i41; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -88,43 +89,45 @@ _i1.GetIt $initDi(_i1.GetIt get,
       get<_i11.Login>(), get<_i8.CheckSession>(), get<_i9.GetDetailUser>()));
   gh.factory<_i23.CheckoutBloc>(
       () => _i23.CheckoutBloc(get<_i16.PostOrder>(), get<_i10.LoadingBloc>()));
-  gh.lazySingleton<_i24.DataMasterRepository>(
-      () => _i25.DataMasterRepositoryImpl(get<_i19.SatuanRemoteDataSource>()));
-  gh.lazySingleton<_i26.GetAllOrder>(
-      () => _i26.GetAllOrder(get<_i14.OrderRepository>()));
-  gh.lazySingleton<_i27.GetDetailOrder>(
-      () => _i27.GetDetailOrder(get<_i14.OrderRepository>()));
-  gh.lazySingleton<_i28.GetKonfigurasi>(
-      () => _i28.GetKonfigurasi(get<_i24.DataMasterRepository>()));
-  gh.lazySingleton<_i29.GetMenu>(
-      () => _i29.GetMenu(get<_i24.DataMasterRepository>()));
-  gh.lazySingleton<_i30.GetRiwayatPoin>(
-      () => _i30.GetRiwayatPoin(get<_i14.OrderRepository>()));
-  gh.lazySingleton<_i31.GetSatuan>(
-      () => _i31.GetSatuan(get<_i24.DataMasterRepository>()));
-  gh.factory<_i32.HomeAdminBloc>(
-      () => _i32.HomeAdminBloc(get<_i12.Logout>(), get<_i10.LoadingBloc>()));
-  gh.factory<_i33.KonfigurasiBloc>(
-      () => _i33.KonfigurasiBloc(get<_i28.GetKonfigurasi>()));
-  gh.factory<_i34.LoginBloc>(() => _i34.LoginBloc(
+  gh.lazySingleton<_i24.CountOrder>(
+      () => _i24.CountOrder(get<_i14.OrderRepository>()));
+  gh.lazySingleton<_i25.DataMasterRepository>(
+      () => _i26.DataMasterRepositoryImpl(get<_i19.SatuanRemoteDataSource>()));
+  gh.lazySingleton<_i27.GetAllOrder>(
+      () => _i27.GetAllOrder(get<_i14.OrderRepository>()));
+  gh.lazySingleton<_i28.GetDetailOrder>(
+      () => _i28.GetDetailOrder(get<_i14.OrderRepository>()));
+  gh.lazySingleton<_i29.GetKonfigurasi>(
+      () => _i29.GetKonfigurasi(get<_i25.DataMasterRepository>()));
+  gh.lazySingleton<_i30.GetMenu>(
+      () => _i30.GetMenu(get<_i25.DataMasterRepository>()));
+  gh.lazySingleton<_i31.GetRiwayatPoin>(
+      () => _i31.GetRiwayatPoin(get<_i14.OrderRepository>()));
+  gh.lazySingleton<_i32.GetSatuan>(
+      () => _i32.GetSatuan(get<_i25.DataMasterRepository>()));
+  gh.factory<_i33.HomeAdminBloc>(() => _i33.HomeAdminBloc(
+      get<_i12.Logout>(), get<_i10.LoadingBloc>(), get<_i24.CountOrder>()));
+  gh.factory<_i34.KonfigurasiBloc>(() =>
+      _i34.KonfigurasiBloc(get<_i29.GetKonfigurasi>(), get<_i12.Logout>()));
+  gh.factory<_i35.LoginBloc>(() => _i35.LoginBloc(
       get<_i11.Login>(), get<_i10.LoadingBloc>(), get<_i22.AuthBloc>()));
-  gh.factory<_i35.OrderBloc>(() => _i35.OrderBloc(
-      get<_i26.GetAllOrder>(),
-      get<_i27.GetDetailOrder>(),
+  gh.factory<_i36.OrderBloc>(() => _i36.OrderBloc(
+      get<_i27.GetAllOrder>(),
+      get<_i28.GetDetailOrder>(),
       get<_i9.GetDetailUser>(),
       get<_i20.UpdateStatus>(),
       get<_i10.LoadingBloc>()));
-  gh.factory<_i36.OrderDetailBloc>(() => _i36.OrderDetailBloc(
-      get<_i29.GetMenu>(), get<_i20.UpdateStatus>(), get<_i9.GetDetailUser>()));
-  gh.lazySingleton<_i37.PostMenu>(
-      () => _i37.PostMenu(get<_i24.DataMasterRepository>()));
-  gh.lazySingleton<_i38.PostSatuan>(
-      () => _i38.PostSatuan(get<_i24.DataMasterRepository>()));
-  gh.factory<_i39.RiwayatPoinBloc>(() => _i39.RiwayatPoinBloc(
-      get<_i30.GetRiwayatPoin>(), get<_i9.GetDetailUser>()));
-  gh.factory<_i40.SatuanBloc>(() => _i40.SatuanBloc(
-      get<_i38.PostSatuan>(), get<_i10.LoadingBloc>(), get<_i31.GetSatuan>()));
-  gh.factory<_i41.MenuBloc>(() => _i41.MenuBloc(get<_i10.LoadingBloc>(),
-      get<_i31.GetSatuan>(), get<_i37.PostMenu>(), get<_i29.GetMenu>()));
+  gh.factory<_i37.OrderDetailBloc>(() => _i37.OrderDetailBloc(
+      get<_i30.GetMenu>(), get<_i20.UpdateStatus>(), get<_i9.GetDetailUser>()));
+  gh.lazySingleton<_i38.PostMenu>(
+      () => _i38.PostMenu(get<_i25.DataMasterRepository>()));
+  gh.lazySingleton<_i39.PostSatuan>(
+      () => _i39.PostSatuan(get<_i25.DataMasterRepository>()));
+  gh.factory<_i40.RiwayatPoinBloc>(() => _i40.RiwayatPoinBloc(
+      get<_i31.GetRiwayatPoin>(), get<_i9.GetDetailUser>()));
+  gh.factory<_i41.SatuanBloc>(() => _i41.SatuanBloc(
+      get<_i39.PostSatuan>(), get<_i10.LoadingBloc>(), get<_i32.GetSatuan>()));
+  gh.factory<_i42.MenuBloc>(() => _i42.MenuBloc(get<_i10.LoadingBloc>(),
+      get<_i32.GetSatuan>(), get<_i38.PostMenu>(), get<_i30.GetMenu>()));
   return get;
 }

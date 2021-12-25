@@ -184,9 +184,9 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                       padding: const EdgeInsets.all(16),
                       child: CustomOutlineButton(
                         onPressed: () {
-                          _orderBloc.add(UpdateStatusOrderEvent(UpdateStatusParams(state.data.id,'sudah bayar')));
+                          Navigator.pushNamed(context, RouteList.makePayment,arguments: widget.id);
                         },
-                        label: 'KONFIRMASI PEMBAYARAN',
+                        label: 'BAYAR',
                         borderColor: AppColor.primary,
                       ),
                     ),

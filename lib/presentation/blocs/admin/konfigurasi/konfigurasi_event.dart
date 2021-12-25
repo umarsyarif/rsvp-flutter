@@ -6,3 +6,4 @@ abstract class KonfigurasiEvent extends Equatable {
   List<Object> get props => [];
 }
 class FetchKonfigurasiEvent extends KonfigurasiEvent{}
+class LogoutEvent extends KonfigurasiEvent{}
