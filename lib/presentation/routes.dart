@@ -4,6 +4,7 @@ import 'package:kopiek_resto/domain/entities/order_params.dart';
 import 'package:kopiek_resto/presentation/views/admin/data-master/tambah_menu.dart';
 import 'package:kopiek_resto/presentation/views/admin/home.dart';
 import 'package:kopiek_resto/presentation/views/admin/order/detail_order_admin_view.dart';
+import 'package:kopiek_resto/presentation/views/admin/voucher/tambah_voucher_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/detail_order_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/order_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/purchase_order_view.dart';
@@ -39,6 +40,8 @@ class AppRouter{
         return MaterialPageRoute(builder: (_)=> PoinView());
       case RouteList.makePayment:
         return MaterialPageRoute(builder: (_)=> WebPaymentView(id: settings.arguments.toString(),));
+      case RouteList.tambahVoucher:
+        return MaterialPageRoute(builder: (_)=> TambahVoucherView());
       case RouteList.checkout:
         Map data = settings.arguments as Map;
         return MaterialPageRoute(builder: (_)=> PurchaseOrderView(makanan: data['makanan'],minuman: data['minuman'],orderParams: data['order'],));

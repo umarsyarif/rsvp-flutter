@@ -7,6 +7,8 @@ import 'package:kopiek_resto/presentation/views/admin/data-master/tambah_menu.da
 import 'package:kopiek_resto/presentation/views/admin/konfigurasi.dart';
 import 'package:kopiek_resto/presentation/views/admin/transaksi/transaksi_tab_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/transaksi/transaksi_view.dart';
+import 'package:kopiek_resto/presentation/views/admin/voucher/tambah_voucher_view.dart';
+import 'package:kopiek_resto/presentation/views/admin/voucher/voucher_view.dart';
 
 import 'dashboard_admin_view.dart';
 
@@ -23,7 +25,7 @@ class _HomeAdminState extends State<HomeAdmin> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.index);
+    _tabController = TabController(length: 5, vsync: this, initialIndex: widget.index);
   }
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,8 @@ class _HomeAdminState extends State<HomeAdmin> with SingleTickerProviderStateMix
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Dashboard'),
           BottomNavigationBarItem(icon: Icon(Icons.timeline),label: 'Transaksi'),
-          BottomNavigationBarItem(icon: Icon(Icons.travel_explore),label: 'Data Master'),
+          BottomNavigationBarItem(icon: Icon(Icons.travel_explore),label: 'Data\nMaster'),
+          BottomNavigationBarItem(icon: Icon(Icons.travel_explore),label: 'Voucher'),
           BottomNavigationBarItem(icon: Icon(Icons.travel_explore),label: 'Pengaturan'),
         ],
       ),
@@ -52,6 +55,7 @@ class _HomeAdminState extends State<HomeAdmin> with SingleTickerProviderStateMix
           DashboardAdminView(),
           TransaksiTabView(),
           const DataMasterTabView(),
+          VoucherView(),
           KonfigurasiView(),
         ],
       ),

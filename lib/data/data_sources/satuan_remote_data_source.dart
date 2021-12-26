@@ -4,6 +4,7 @@ import 'package:kopiek_resto/data/core/api_client.dart';
 import 'package:kopiek_resto/data/models/konfigurasi_model.dart';
 import 'package:kopiek_resto/data/models/menu_model.dart';
 import 'package:kopiek_resto/data/models/satuan_model.dart';
+import 'package:kopiek_resto/data/models/voucher_model.dart';
 
 abstract class SatuanRemoteDataSource{
   Future<bool> postSatuan(Map<String,dynamic> data);
@@ -11,6 +12,8 @@ abstract class SatuanRemoteDataSource{
   Future<bool> postMenu(FormData data);
   Future<MenuModel> getMenu();
   Future<KonfigurasiModel> getKonfigurasi();
+  Future<bool> postVoucher(FormData data);
+  Future<List<DataVoucher>> getAllVoucher();
 }
 
 @LazySingleton(as: SatuanRemoteDataSource)
@@ -49,6 +52,19 @@ class SatuanRemoteDataSourceImpl implements SatuanRemoteDataSource{
     final res = await _client.get('/konfigurasi/find/1');
     KonfigurasiModel model = KonfigurasiModel.fromJson(res);
     return model;
+  }
+
+  @override
+  Future<bool> postVoucher(FormData data)async {
+    await _client.postFormData('/voucher', data);
+    return true;
+  }
+
+  @override
+  Future<List<DataVoucher>> getAllVoucher() async{
+    final res = await _client.get('/voucher/all');
+    VoucherModel model = VoucherModel.fromJson(res);
+    return model.data;
   }
   
 }

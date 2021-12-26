@@ -19,7 +19,7 @@ class _HomeClientState extends State<HomeClient> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.index);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: widget.index);
   }
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _HomeClientState extends State<HomeClient> with SingleTickerProviderStateM
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Dashboard'),
           BottomNavigationBarItem(icon: Icon(Icons.timeline),label: 'Tracking'),
-          BottomNavigationBarItem(icon: Icon(Icons.travel_explore),label: 'Inbox'),
+          // BottomNavigationBarItem(icon: Icon(Icons.travel_explore),label: 'Inbox'),
           BottomNavigationBarItem(icon: Icon(Icons.travel_explore),label: 'Account'),
         ],
       ),
@@ -47,7 +47,7 @@ class _HomeClientState extends State<HomeClient> with SingleTickerProviderStateM
         children:  [
           DashboardClient(),
           TransaksiTabView(),
-          Text('oke'),
+          // Text('oke'),
           AccountView(),
         ],
       ),

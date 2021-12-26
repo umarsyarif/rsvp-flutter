@@ -60,12 +60,12 @@ class _KonfigurasiViewState extends State<KonfigurasiView> {
                   child: Column(
                     children: [
                       ListTile(
-                        leading: Icon(Icons.timer),
+                        leading: CircleAvatar(child: Icon(Icons.timer,color: Colors.white,),backgroundColor: AppColor.primary,),
                         title: Text('Jam Buka'),
                         trailing: Text(state.data.buka),
                       ),
                       ListTile(
-                        leading: Icon(Icons.timer),
+                        leading: CircleAvatar(child: Icon(Icons.timer,color: Colors.white,),backgroundColor: AppColor.primary,),
                         title: Text('Jam Tutup'),
                         trailing: Text(state.data.tutup),
                       ),

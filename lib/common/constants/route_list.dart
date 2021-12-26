@@ -13,4 +13,5 @@ class RouteList{
   static const String detailOrderAdmin = '/order/detail/admin';
   static const String riwayatPoin = '/riwayat-poin';
   static const String makePayment = '/make-payment';
+  static const String tambahVoucher = '/voucher/tambah';
 }

@@ -7,6 +7,7 @@ import 'package:kopiek_resto/data/data_sources/satuan_remote_data_source.dart';
 import 'package:kopiek_resto/data/models/konfigurasi_model.dart';
 import 'package:kopiek_resto/data/models/menu_model.dart';
 import 'package:kopiek_resto/data/models/satuan_model.dart';
+import 'package:kopiek_resto/data/models/voucher_model.dart';
 import 'package:kopiek_resto/domain/entities/app_error.dart';
 import 'package:kopiek_resto/domain/entities/satuan_params.dart';
 import 'package:kopiek_resto/domain/repositories/data_master_repository.dart';
@@ -109,6 +110,50 @@ class DataMasterRepositoryImpl implements DataMasterRepository{
     try {
       KonfigurasiModel model = await _remoteDataSource.getKonfigurasi();
       return  Right(model.data);
+    } on SocketException {
+      return const Left(AppError(AppErrorType.network,
+          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const Left(AppError(AppErrorType.network,
+            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+      }
+      return Left(
+          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
+    } on Exception {
+      return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
+    }
+  }
+
+  @override
+  Future<Either<AppError, bool>> postVoucher(FormData data)async {
+    try {
+      bool model = await _remoteDataSource.postVoucher(data);
+      return  Right(model);
+    } on SocketException {
+      return const Left(AppError(AppErrorType.network,
+          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const Left(AppError(AppErrorType.network,
+            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+      }
+      return Left(
+          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
+    } on Exception {
+      return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<DataVoucher>>> getAllVoucher() async {
+    try {
+      List<DataVoucher> model = await _remoteDataSource.getAllVoucher();
+      return  Right(model);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
           message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
