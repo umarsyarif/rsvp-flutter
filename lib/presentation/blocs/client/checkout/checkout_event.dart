@@ -10,3 +10,4 @@ class PostCheckout extends CheckoutEvent{
 
   PostCheckout(this.params);
 }
+class FetchChekcoutEvent extends CheckoutEvent{}

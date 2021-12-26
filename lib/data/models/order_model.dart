@@ -64,7 +64,7 @@ class DataOrder {
   DateTime updatedAt;
   List<StatusOrder> statusOrder;
   List<DetailOrder> detailOrder;
-  dynamic voucherOrder;
+  VoucherOrder? voucherOrder;
   Pengguna pengguna;
 
   factory DataOrder.fromJson(Map<String, dynamic> json) => DataOrder(
@@ -81,7 +81,7 @@ class DataOrder {
     updatedAt: DateTime.parse(json["updated_at"]),
     statusOrder: List<StatusOrder>.from(json["status_order"].map((x) => StatusOrder.fromJson(x))),
     detailOrder: List<DetailOrder>.from(json["detail_order"].map((x) => DetailOrder.fromJson(x))),
-    voucherOrder: json["voucher_order"],
+    voucherOrder: json["voucher_order"]==null?null:VoucherOrder.fromJson(json['voucher_order']),
     pengguna: Pengguna.fromJson(json["pengguna"]),
   );
 
@@ -201,6 +201,77 @@ class Menu {
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
     "satuan": satuan.toJson(),
+  };
+}
+class VoucherOrder {
+  VoucherOrder({
+    required this.id,
+    required this.idOrder,
+    required this.createdAt,
+    required this.idVoucher,
+    required this.voucher,
+    required this.updatedAt,
+  });
+
+  int id;
+  int idOrder;
+  int idVoucher;
+  DateTime createdAt;
+  DateTime updatedAt;
+  Voucher voucher;
+
+  factory VoucherOrder.fromJson(Map<String, dynamic> json) => VoucherOrder(
+    id: json["id"],
+    idOrder: json["id_order"],
+    idVoucher: json["id_voucher"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    voucher: Voucher.fromJson(json["voucher"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "id_order": idOrder,
+    "id_voucher": idVoucher,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "voucher": voucher.toJson(),
+  };
+}
+
+class Voucher {
+  Voucher({
+    required this.id,
+    required this.label,
+    required this.diskon,
+    required this.foto,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  int id;
+  String label;
+  String foto;
+  int diskon;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory Voucher.fromJson(Map<String, dynamic> json) => Voucher(
+    id: json["id"],
+    label: json["label"],
+    foto: json["foto"],
+    diskon: json["diskon"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "label": label,
+    "foto": foto,
+    "diskon": diskon,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
   };
 }
 

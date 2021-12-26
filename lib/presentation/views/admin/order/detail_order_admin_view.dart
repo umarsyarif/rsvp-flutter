@@ -96,6 +96,46 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                               ),
                             ),
                             vSpace(20),
+                            Card(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Detail Pembayaran',style: blackTextStyle.copyWith(fontWeight: bold),),
+                                    const Divider(thickness: 1,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Sub Total',style: blackTextStyle,),
+                                        Text(valueRupiah(state.data.total+state.data.diskon))
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Diskon',style: blackTextStyle,),
+                                        Text(valueRupiah(state.data.diskon))
+                                      ],
+                                    ),
+                                    const Divider(thickness: 1,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Harga',style: blackTextStyle,),
+                                        Text(valueRupiah(state.data.total))
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            vSpace(20),
                             Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
@@ -155,9 +195,11 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                                     ))
                                         .toList(),
                                   ),
+
                                 ],
                               ),
                             ),
+                            vSpace(70),
                           ],
                         ),
                       ),
@@ -168,6 +210,7 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.all(16),
+                      color: Colors.white,
                       child: CustomOutlineButton(
                         onPressed: () {
                           _orderBloc.add(UpdateStatusOrderEvent(UpdateStatusParams(state.data.id,'selesai')));
@@ -180,6 +223,7 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                   state.user.role=='pelanggan'&&(state.data.statusOrder[0].status=='diproses'||state.data.statusOrder[0].status=='reschedule')? Positioned(
                     bottom: 0,
                     child: Container(
+                      color: Colors.white,
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.all(16),
                       child: CustomOutlineButton(

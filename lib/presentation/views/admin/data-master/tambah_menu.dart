@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kopiek_resto/common/constants/enums.dart';
+import 'package:kopiek_resto/common/constants/route_list.dart';
 import 'package:kopiek_resto/common/extension/image_pick_helper.dart';
 import 'package:kopiek_resto/common/utils/form_validation.dart';
 import 'package:kopiek_resto/common/utils/string_helper.dart';
@@ -65,6 +66,7 @@ class _TambahMenuState extends State<TambahMenu> {
                 EasyLoading.showError(state.errMessage);
               }else if (state.status == Status.success){
                 EasyLoading.showSuccess('Berhasil menambah menu');
+                Navigator.pushNamedAndRemoveUntil(context, RouteList.homeAdmin, (route) => false);
               }
             }
           },
