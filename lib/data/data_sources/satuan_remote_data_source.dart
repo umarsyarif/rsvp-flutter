@@ -14,6 +14,7 @@ abstract class SatuanRemoteDataSource{
   Future<KonfigurasiModel> getKonfigurasi();
   Future<bool> postVoucher(FormData data);
   Future<List<DataVoucher>> getAllVoucher();
+  Future<bool> updateKonfigurasi(Map<String,dynamic> params);
 }
 
 @LazySingleton(as: SatuanRemoteDataSource)
@@ -65,6 +66,12 @@ class SatuanRemoteDataSourceImpl implements SatuanRemoteDataSource{
     final res = await _client.get('/voucher/all');
     VoucherModel model = VoucherModel.fromJson(res);
     return model.data;
+  }
+
+  @override
+  Future<bool> updateKonfigurasi(Map<String, dynamic> params)async {
+    await _client.patch('/konfigurasi', params);
+    return true;
   }
   
 }

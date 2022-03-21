@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:kopiek_resto/data/models/menu_model.dart';
 import 'package:kopiek_resto/domain/entities/no_params.dart';
 import 'package:kopiek_resto/domain/usecases/auth/logout.dart';
+import 'package:kopiek_resto/domain/usecases/data-master/get_menu.dart';
 import 'package:kopiek_resto/domain/usecases/order/count_order.dart';
 import 'package:kopiek_resto/presentation/blocs/loading/loading_bloc.dart';
 
@@ -17,7 +19,8 @@ class HomeAdminBloc extends Bloc<HomeAdminEvent, HomeAdminState> {
   final LoadingBloc loadingBloc;
   final CountOrder count;
   late int proses,paid,selesai;
-  HomeAdminBloc(this.logout, this.loadingBloc, this.count) : super(HomeAdminInitial()) {
+  final GetMenu dataMenu;
+  HomeAdminBloc(this.logout, this.loadingBloc, this.count, this.dataMenu) : super(HomeAdminInitial()) {
     on<FetchHomeAdmin>((event, emit) async{
       emit(HomeAdminLoading());
       final eithProses = await count.call('diproses');
@@ -35,7 +38,10 @@ class HomeAdminBloc extends Bloc<HomeAdminEvent, HomeAdminState> {
         eithSelesai.fold((l) => null, (r){
           selesai = r;
         });
-        emit(HomeAdminLoaded(proses, paid, selesai));
+        final eithMenu = await dataMenu.call(NoParams());
+        eithMenu.fold((l) => emit(HomeAdminFailure(l.message)), (r){
+          emit(HomeAdminLoaded(proses, paid, selesai,r.where((element) => element.tipe=='makanan').toList(),r.where((element) => element.tipe=='minuman').toList()));
+        });
       }
     });
     on<LogoutEvent>((event, emit) async{

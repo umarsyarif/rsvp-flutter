@@ -170,4 +170,26 @@ class DataMasterRepositoryImpl implements DataMasterRepository{
       return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
     }
   }
+
+  @override
+  Future<Either<AppError, bool>> updateKonfigurasi(Map<String, dynamic> params)async {
+    try {
+      bool model = await _remoteDataSource.updateKonfigurasi(params);
+      return  Right(model);
+    } on SocketException {
+      return const Left(AppError(AppErrorType.network,
+          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const Left(AppError(AppErrorType.network,
+            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+      }
+      return Left(
+          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
+    } on Exception {
+      return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
+    }
+  }
 }

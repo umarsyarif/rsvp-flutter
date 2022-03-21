@@ -14,8 +14,10 @@ class HomeAdminLoading extends HomeAdminState {
 }
 class HomeAdminLoaded extends HomeAdminState {
   final int proses,paid,selesai;
+  final List<DataMenu> dataMakanan;
+  final List<DataMenu> dataMinuman;
 
-  const HomeAdminLoaded(this.proses, this.paid, this.selesai);
+  const HomeAdminLoaded(this.proses, this.paid, this.selesai,this.dataMakanan,this.dataMinuman);
 }
 class HomeAdminFailure extends HomeAdminState {
   final String message;

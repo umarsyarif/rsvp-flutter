@@ -33,6 +33,7 @@ dependencies:
   flutter_exif_rotation: ^0.4.2
   permission_handler: ^8.3.0
   webview_flutter: ^3.0.0
+  onesignal_flutter: ^3.3.0
 
 dev_dependencies:
   flutter_test:

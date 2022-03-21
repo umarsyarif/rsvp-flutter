@@ -59,7 +59,14 @@ String getDateForLaporan(DateTime date){
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   return formatter.format(date);
 }
+String getDateForFilter(DateTime date){
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  return formatter.format(date);
+}
 String getDateDashboard(DateTime date){
   final DateFormat formatter = DateFormat('d LLL y');
   return formatter.format(date);
+}
+String get currentMonth {
+  return DateFormat('LLLL y').format(DateTime.now());
 }

@@ -91,8 +91,37 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                               child: ListTile(
                                 title: Text(state.data.tipe.toUpperCase()),
                                 subtitle: Text(
-                                    '${state.data.jam}/${getDateDashboard(state.data.tanggal)}'),
-                                trailing: Text(valueRupiah(state.data.total),style:blackTextStyle.copyWith(fontWeight: bold)),
+                                    '${state.data.jam.substring(0,5)}/${getDateDashboard(state.data.tanggal)}'),
+                              ),
+                            ),
+                            vSpace(20),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.black12),
+                              ),
+                              child: Column(
+                                children: state.data.detailOrder
+                                    .map((e) => Column(
+                                  children: [
+                                    ListTile(
+                                      title: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(e.menu.nama),
+                                          e.catatan?.isEmpty??true?const SizedBox(): Text(
+                                              'catatan : ${e.catatan ?? '-'}'),
+                                        ],
+                                      ),
+                                      leading: Text(
+                                          '${e.jumlah}X'),
+                                      trailing: Text(valueRupiah((e.total/e.jumlah).floor()),style: blackTextStyle.copyWith(fontWeight: bold),),
+                                    ),
+                                    Divider(),
+                                  ],
+                                ))
+                                    .toList(),
                               ),
                             ),
                             vSpace(20),
@@ -133,35 +162,6 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                                     ),
                                   ],
                                 ),
-                              ),
-                            ),
-                            vSpace(20),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.black12),
-                              ),
-                              child: Column(
-                                children: state.data.detailOrder
-                                    .map((e) => Column(
-                                          children: [
-                                            ListTile(
-                                              leading:ClipRRect(child: Image.network(e.menu.foto),borderRadius: BorderRadius.circular(10),),
-                                              title: Text(e.menu.nama),
-                                              subtitle: Text(
-                                                  'catatan : ${e.catatan ?? '-'}'),
-                                              trailing: Column(
-                                                children: [
-                                                  Text(
-                                                      '${e.jumlah} ${e.menu.satuan.nama}'),
-                                                ],
-                                              ),
-                                            ),
-                                            Divider(),
-                                          ],
-                                        ))
-                                    .toList(),
                               ),
                             ),
                             vSpace(20),

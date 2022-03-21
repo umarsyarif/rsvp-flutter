@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kopiek_resto/common/constants/route_list.dart';
 import 'package:kopiek_resto/domain/entities/order_params.dart';
+import 'package:kopiek_resto/presentation/views/admin/data-master/data_master_tab_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/data-master/tambah_menu.dart';
 import 'package:kopiek_resto/presentation/views/admin/home.dart';
+import 'package:kopiek_resto/presentation/views/admin/jadwal_restoran.dart';
+import 'package:kopiek_resto/presentation/views/admin/notification_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/order/detail_order_admin_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/voucher/tambah_voucher_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/detail_order_view.dart';
@@ -23,7 +26,7 @@ class AppRouter{
       case RouteList.login:
         return MaterialPageRoute(builder: (_)=>const LoginView());
       case RouteList.homeAdmin:
-        return MaterialPageRoute(builder: (_)=>const HomeAdmin());
+        return MaterialPageRoute(builder: (_)=> HomeAdmin(index: settings.arguments==null?0:settings.arguments as int,));
       case RouteList.homeClient:
         return MaterialPageRoute(builder: (_)=> HomeClient());
       case RouteList.register:
@@ -41,7 +44,13 @@ class AppRouter{
       case RouteList.makePayment:
         return MaterialPageRoute(builder: (_)=> WebPaymentView(id: settings.arguments.toString(),));
       case RouteList.tambahVoucher:
-        return MaterialPageRoute(builder: (_)=> TambahVoucherView());
+        return MaterialPageRoute(builder: (_)=> const TambahVoucherView());
+      case RouteList.dataMaster:
+        return MaterialPageRoute(builder: (_)=> const DataMasterTabView());
+      case RouteList.notifkasi:
+        return MaterialPageRoute(builder: (_)=> const NotificationView());
+      case RouteList.jadwalRestoran:
+        return MaterialPageRoute(builder: (_)=> const JadwalRestoranView());
       case RouteList.checkout:
         Map data = settings.arguments as Map;
         return MaterialPageRoute(builder: (_)=> PurchaseOrderView(makanan: data['makanan'],minuman: data['minuman'],orderParams: data['order'],));

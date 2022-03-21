@@ -65,18 +65,7 @@ class _DashboardClientState extends State<DashboardClient> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  InkWell(
-                                    onTap:(){
-                                      Navigator.pushNamed(context, RouteList.order,arguments: 'take away');
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Icon(Icons.local_shipping),
-                                        vSpace(10),
-                                        Text('Takeaway')
-                                      ],
-                                    ),
-                                  ),
+
                                   InkWell(
                                     onTap: (){
                                       Navigator.pushNamed(context, RouteList.order,arguments: 'dine in');

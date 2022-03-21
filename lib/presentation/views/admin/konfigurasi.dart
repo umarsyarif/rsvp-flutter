@@ -60,14 +60,22 @@ class _KonfigurasiViewState extends State<KonfigurasiView> {
                   child: Column(
                     children: [
                       ListTile(
-                        leading: CircleAvatar(child: Icon(Icons.timer,color: Colors.white,),backgroundColor: AppColor.primary,),
-                        title: Text('Jam Buka'),
-                        trailing: Text(state.data.buka),
+                        leading: CircleAvatar(child: Icon(Icons.schedule,color: Colors.white,),backgroundColor: AppColor.primary,),
+                        title: Text('Jadwal Restoran'),
+                        trailing: Icon(Icons.arrow_forward_ios),
+                        onTap: (){
+                          Navigator.pushNamed(context, RouteList.jadwalRestoran);
+                        },
+
                       ),
                       ListTile(
-                        leading: CircleAvatar(child: Icon(Icons.timer,color: Colors.white,),backgroundColor: AppColor.primary,),
-                        title: Text('Jam Tutup'),
-                        trailing: Text(state.data.tutup),
+                        leading: CircleAvatar(child: Icon(Icons.settings,color: Colors.white,),backgroundColor: AppColor.primary,),
+                        title: Text('Data Master'),
+                        trailing: Icon(Icons.arrow_forward_ios),
+                        onTap: (){
+                          Navigator.pushNamed(context, RouteList.dataMaster);
+                        },
+
                       ),
                       ListTile(
                         leading: const CircleAvatar(child: Icon(Icons.logout,color: Colors.white,),backgroundColor: AppColor.primary,),

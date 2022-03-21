@@ -51,6 +51,18 @@ class ApiClient {
     return jsonDecode(jsonEncode(response.data));
 
   }
+  dynamic patch(String path, var data) async {
+    String url = ApiConstants.baseUrl + path;
+    final response = await dio.patch(url,
+        options: Options(headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }),
+        data: jsonEncode(data));
+    debugPrint(jsonEncode(data));
+    return jsonDecode(jsonEncode(response.data));
+
+  }
   dynamic postFormData(String path, FormData data) async {
     String url = ApiConstants.baseUrl + path;
     final response = await dio.post(url,

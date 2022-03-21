@@ -14,4 +14,7 @@ class RouteList{
   static const String riwayatPoin = '/riwayat-poin';
   static const String makePayment = '/make-payment';
   static const String tambahVoucher = '/voucher/tambah';
+  static const String dataMaster ='/data-master';
+  static const String notifkasi ='/notifikasi';
+  static const String jadwalRestoran = '/jadwal-restoran';
 }

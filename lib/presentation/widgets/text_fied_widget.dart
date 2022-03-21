@@ -15,6 +15,7 @@ class TextFieldWidget extends StatelessWidget {
   final void Function(String?)? onSaved;
   final TextInputType typeInput;
   final Icon? sufixIcon;
+  final Icon? prefixIcon;
   final Widget? suffixAction;
   final bool isInputWhite;
   final void Function(String?)? onChanged;
@@ -39,6 +40,7 @@ class TextFieldWidget extends StatelessWidget {
         this.validator,
         this.onSaved,
         this.minLines,
+        this.prefixIcon,
         this.maxLines, this.inputFormatter, this.readonly=false, this.onTap, this.onChanged})
       : super(key: key);
 
@@ -72,7 +74,7 @@ class TextFieldWidget extends StatelessWidget {
             width: 21.0,
           )
               : null,
-          suffixIcon: sufixIcon ?? suffixAction)
+          suffixIcon: sufixIcon ?? suffixAction,prefixIcon: prefixIcon)
           : inputDecorationPrimary.copyWith(
           hintText: hintText,
           hintStyle: const TextStyle(color: Colors.white)),

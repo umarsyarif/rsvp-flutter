@@ -34,8 +34,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       eithUser.fold((l) =>null , (r) {
         userData = r;
       });
-      final eith = await getAllOrder.call(ListOrderParams(event.status,idPengguna: userData.role=='admin'?null:userData.id.toString()));
-      eith.fold((l) => emit(OrderFailure(l.message)), (r) => emit(OrderLoaded(r)));
+      final eith = await getAllOrder.call(ListOrderParams(event.status,idPengguna: userData.role=='admin'?null:userData.id.toString(),start: event.start,end: event.end));
+      eith.fold((l) => emit(OrderFailure(l.message)), (r) => emit(OrderLoaded(r,event.start,event.end)));
     });
     on<FetchDetailOrderEvent>((event,emit)async{
       emit(OrderLoading());

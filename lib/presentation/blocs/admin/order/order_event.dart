@@ -7,8 +7,10 @@ abstract class OrderEvent extends Equatable {
 }
 class FetchOrderEvent extends OrderEvent{
   final String status;
+  final String start;
+  final String end;
 
-  const FetchOrderEvent(this.status);
+  const FetchOrderEvent(this.status, {this.start = '', this.end = ''});
 }
 class FetchDetailOrderEvent extends OrderEvent{
   final int id;

@@ -15,6 +15,7 @@ import 'package:kopiek_resto/presentation/views/loading/loading_screen.dart';
 import 'package:kopiek_resto/presentation/views/login_view.dart';
 import 'package:kopiek_resto/di/get_it.dart' as di;
 import 'package:kopiek_resto/presentation/views/splash_screen.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() async {
@@ -24,6 +25,10 @@ void main() async {
   await di.init();
   final appDocumentDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
+  OneSignal.shared.setAppId('a19dec84-14c8-40ca-ae1a-d700f29908a8');
+
+// The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+  OneSignal.shared.promptUserForPushNotificationPermission();
   runApp(const MyApp());
 }
 class MyApp extends StatefulWidget {

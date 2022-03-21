@@ -27,7 +27,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource{
 
   @override
   Future<List<DataOrder>> getAllMenu(ListOrderParams params) async{
-    final res = await _client.get('/order?status=${params.status}&idPengguna=${params.idPengguna??''}');
+    final res = await _client.get('/order?status=${params.status}&idPengguna=${params.idPengguna??''}&start=${params.start}&end=${params.end}');
     OrderModel model = OrderModel.fromJson(res);
     return model.data;
   }

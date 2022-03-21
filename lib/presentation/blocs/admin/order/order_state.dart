@@ -14,8 +14,8 @@ class OrderLoading extends OrderState {
 }
 class OrderLoaded extends OrderState {
   final List<DataOrder> data;
-
-  const OrderLoaded(this.data);
+  final String start,end;
+  const OrderLoaded(this.data, this.start, this.end);
 }
 class OrderDetailLoaded extends OrderState{
   final DataOrder data;

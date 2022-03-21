@@ -15,4 +15,5 @@ abstract class DataMasterRepository{
   Future<Either<AppError,DataKonfigurasi>> getKonfigurasi();
   Future<Either<AppError,bool>> postVoucher(FormData data);
   Future<Either<AppError,List<DataVoucher>>> getAllVoucher();
+  Future<Either<AppError,bool>> updateKonfigurasi(Map<String,dynamic> params);
 }

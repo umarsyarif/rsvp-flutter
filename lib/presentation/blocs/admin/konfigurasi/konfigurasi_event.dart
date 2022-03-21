@@ -7,3 +7,9 @@ abstract class KonfigurasiEvent extends Equatable {
 }
 class FetchKonfigurasiEvent extends KonfigurasiEvent{}
 class LogoutEvent extends KonfigurasiEvent{}
+class UbahKonfigurasiEvent extends KonfigurasiEvent{
+  final String jamBuka;
+  final String jamTutup;
+
+  const UbahKonfigurasiEvent(this.jamBuka, this.jamTutup);
+}
