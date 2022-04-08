@@ -3,10 +3,15 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:kopiek_resto/data/models/login_model.dart';
 import 'package:kopiek_resto/data/models/menu_model.dart';
+import 'package:kopiek_resto/data/models/voucher_model.dart';
 import 'package:kopiek_resto/domain/entities/no_params.dart';
+import 'package:kopiek_resto/domain/usecases/auth/get_detail_user.dart';
 import 'package:kopiek_resto/domain/usecases/auth/logout.dart';
+import 'package:kopiek_resto/domain/usecases/data-master/get_all_voucher.dart';
 import 'package:kopiek_resto/domain/usecases/data-master/get_menu.dart';
+import 'package:kopiek_resto/domain/usecases/data-master/get_notifikasi_user.dart';
 import 'package:kopiek_resto/domain/usecases/order/count_order.dart';
 import 'package:kopiek_resto/presentation/blocs/loading/loading_bloc.dart';
 
@@ -18,15 +23,25 @@ class HomeAdminBloc extends Bloc<HomeAdminEvent, HomeAdminState> {
   final Logout logout;
   final LoadingBloc loadingBloc;
   final CountOrder count;
-  late int proses,paid,selesai;
+  final GetAllVoucher getAllVoucher;
+  late int proses,paid,selesai,notifikasi;
+  late List<DataVoucher> voucher;
+  final GetNotifikasiUser getNotifikasiUser;
   final GetMenu dataMenu;
-  HomeAdminBloc(this.logout, this.loadingBloc, this.count, this.dataMenu) : super(HomeAdminInitial()) {
+  final GetDetailUser getDetailUser;
+  HomeAdminBloc(this.logout, this.loadingBloc, this.count, this.dataMenu, this.getNotifikasiUser, this.getDetailUser, this.getAllVoucher) : super(HomeAdminInitial()) {
     on<FetchHomeAdmin>((event, emit) async{
       emit(HomeAdminLoading());
       final eithProses = await count.call('diproses');
       final eithPaid = await count.call('selesai');
-      final eithSelesai = await count.call('sudah bayar');
-      if(eithProses.isLeft()||eithPaid.isLeft()||eithSelesai.isLeft()){
+      final eithUser = await getDetailUser.call(NoParams());
+      final eithVoucher = await getAllVoucher.call('');
+      late User user;
+      eithUser.fold((l) => null, (r){
+        user = r;
+      });
+      final eithNotifikasi = await getNotifikasiUser.call(user.id);
+      if(eithProses.isLeft()||eithPaid.isLeft()||eithNotifikasi.isLeft()||eithVoucher.isLeft()){
         emit(const HomeAdminFailure('Terjadi kesalahan, coba lagi'));
       }else{
         eithProses.fold((l) => null, (r){
@@ -35,12 +50,11 @@ class HomeAdminBloc extends Bloc<HomeAdminEvent, HomeAdminState> {
         eithPaid.fold((l) => null, (r){
           paid = r;
         });
-        eithSelesai.fold((l) => null, (r){
-          selesai = r;
-        });
-        final eithMenu = await dataMenu.call(NoParams());
+        notifikasi = eithNotifikasi.toOption().toNullable()!.length;
+        voucher = eithVoucher.toOption().toNullable()!;
+        final eithMenu = await dataMenu.call('');
         eithMenu.fold((l) => emit(HomeAdminFailure(l.message)), (r){
-          emit(HomeAdminLoaded(proses, paid, selesai,r.where((element) => element.tipe=='makanan').toList(),r.where((element) => element.tipe=='minuman').toList()));
+          emit(HomeAdminLoaded(proses, paid,notifikasi,r.where((element) => element.tipe=='makanan').toList(),r.where((element) => element.tipe=='minuman').toList(),voucher));
         });
       }
     });

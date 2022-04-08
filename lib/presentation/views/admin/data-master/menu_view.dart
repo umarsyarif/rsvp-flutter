@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:kopiek_resto/common/constants/enums.dart';
 import 'package:kopiek_resto/common/constants/route_list.dart';
 import 'package:kopiek_resto/common/utils/string_helper.dart';
 import 'package:kopiek_resto/data/models/menu_model.dart';
 import 'package:kopiek_resto/di/get_it.dart';
+import 'package:kopiek_resto/domain/entities/update_menu_params.dart';
 import 'package:kopiek_resto/presentation/blocs/menu/menu_bloc.dart';
+import 'package:kopiek_resto/presentation/theme/theme.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
@@ -41,7 +45,17 @@ class _MenuViewState extends State<MenuView> {
         floatingActionButton: FloatingActionButton.extended(onPressed: (){
           Navigator.pushNamed(context, RouteList.addMenu);
         }, label: const Text('TAMBAH'),backgroundColor: AppColor.primary,icon: const Icon(Icons.add),),
-        body: BlocBuilder<MenuBloc,MenuState>(
+        body: BlocConsumer<MenuBloc,MenuState>(
+          listener: (context,state){
+            if(state is MenuLoaded){
+              if(state.status == Status.failure){
+                EasyLoading.showError(state.errMessage);
+              }else if (state.status==Status.success){
+                EasyLoading.showSuccess('Berhasil merubah status menu');
+                _menuBloc.add(FetchMenuEvent());
+              }
+            }
+          },
           builder: (contex,state){
             if(state is MenuLoading){
               return const Center(child: LoadingCircle(),);
@@ -61,8 +75,20 @@ class _MenuViewState extends State<MenuView> {
                     DataMenu data = state.menu[index];
                     return ListTile(
                       title: Text(data.nama),
-                      trailing: Chip(label: Text(data.tipe)),
-                      subtitle: Text(valueRupiah(data.harga)),
+                      trailing: Switch(
+                        onChanged: (val){
+                          _menuBloc.add(UpdateActiveMenuEvent(UpdateActiveMenuParams(data.id, val?1:0)));
+                        },
+                        value: data.isActive==1,
+                        activeColor: AppColor.primary,
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(valueRupiah(data.harga),style: blackTextStyle.copyWith(fontWeight: bold),),
+                          Text(data.tipe,style: greyTextStyle,)
+                        ],
+                      ),
                       leading: Image.network(data.foto),
                     );
                   },

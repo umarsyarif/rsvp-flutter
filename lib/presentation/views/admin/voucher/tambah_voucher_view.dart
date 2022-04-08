@@ -55,7 +55,7 @@ class _TambahVoucherViewState extends State<TambahVoucherView> {
               EasyLoading.showError(state.message);
             }else if (state is VoucherCreated){
               EasyLoading.showSuccess('Berhasil menambah voucher');
-              Navigator.pushNamedAndRemoveUntil(context, RouteList.tambahVoucher, (route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, RouteList.homeAdmin, (route) => false,arguments: 2);
             }
           },
           child: SingleChildScrollView(

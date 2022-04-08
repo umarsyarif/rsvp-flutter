@@ -54,43 +54,67 @@ class _LoginViewState extends State<LoginView> {
         },
         child: Scaffold(
           body: SafeArea(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: Form(
-                key: _form,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('KOPIEK RESTO', style: blackTextStyle.copyWith(fontSize: 32,fontWeight: extraBold),),
-                    vSpace(40),
-                    TextFieldWidget(
-                      hintText: 'Email',
-                      controller: email,
-                      typeInput: TextInputType.emailAddress,
-                      validator: FormValidation.validateEmail,
+            child: Stack(
+              children: [
+                // AspectRatio(aspectRatio: 0.5,child: Image.asset(,fit: BoxFit.fitHeight),),
+                Container(
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        repeat: ImageRepeat.repeat,
+                        image: AssetImage('assets/bg.png'),
+                      )),
+                  padding: const EdgeInsets.all(20),
+                  child: Form(
+                    key: _form,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('KOPIEK RESTO', style: blackTextStyle.copyWith(fontSize: 32,fontWeight: extraBold),),
+                        vSpace(10),
+                        Card(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)
+                          ),
+                          color: Colors.grey,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              children: [
+                                TextFieldWidget(
+                                  hintText: 'Email',
+                                  controller: email,
+                                  typeInput: TextInputType.emailAddress,
+                                  validator: FormValidation.validateEmail,
+                                ),
+                                vSpace(20),
+                                TextFieldWidget(
+                                  hintText: 'password',
+                                  isPasswordField: true,
+                                  controller: password,
+                                  validator: FormValidation.validatePassword,
+                                ),
+                                vSpace(20),
+                                CustomFlatButton(backgroundColor: AppColor.primary, label: 'SIGN IN', onPressed: (){
+                                  FocusScope.of(context).unfocus();
+                                  if(_form.currentState?.validate()??false){
+                                        loginBloc.add(StartLogin(
+                                            LoginParams(email.text, password.text)));
+                                      }
+                                    }),
+                                vSpace(10),
+                                CustomFlatButton(backgroundColor: AppColor.secondary, label: 'REGISTER', onPressed: (){
+                                  Navigator.pushNamed(context, RouteList.register);
+                                }),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                    vSpace(20),
-                    TextFieldWidget(
-                      hintText: 'password',
-                      isPasswordField: true,
-                      controller: password,
-                      validator: FormValidation.validatePassword,
-                    ),
-                    vSpace(20),
-                    CustomFlatButton(backgroundColor: AppColor.primary, label: 'SIGN IN', onPressed: (){
-                      FocusScope.of(context).unfocus();
-                      if(_form.currentState?.validate()??false){
-                            loginBloc.add(StartLogin(
-                                LoginParams(email.text, password.text)));
-                          }
-                        }),
-                    vSpace(20),
-                    CustomOutlineButton(borderColor: AppColor.primary, label: 'REGISTER', onPressed: (){
-                      Navigator.pushNamed(context, RouteList.register);
-                    })
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),

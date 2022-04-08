@@ -10,11 +10,14 @@ abstract class SatuanRemoteDataSource{
   Future<bool> postSatuan(Map<String,dynamic> data);
   Future<SatuanModel> getSatuan();
   Future<bool> postMenu(FormData data);
-  Future<MenuModel> getMenu();
+  Future<MenuModel> getMenu(String params);
   Future<KonfigurasiModel> getKonfigurasi();
   Future<bool> postVoucher(FormData data);
-  Future<List<DataVoucher>> getAllVoucher();
+  Future<List<DataVoucher>> getAllVoucher(String params);
   Future<bool> updateKonfigurasi(Map<String,dynamic> params);
+  Future<bool> updateNotifikasi(int id);
+  Future<bool> updateMenu(Map<String,dynamic> body);
+  Future<bool> updateVoucher(Map<String,dynamic> body);
 }
 
 @LazySingleton(as: SatuanRemoteDataSource)
@@ -42,8 +45,8 @@ class SatuanRemoteDataSourceImpl implements SatuanRemoteDataSource{
   }
 
   @override
-  Future<MenuModel> getMenu() async{
-    final res = await _client.get('/menu/all');
+  Future<MenuModel> getMenu(String params) async{
+    final res = await _client.get('/menu/all?active=$params');
     MenuModel model = MenuModel.fromJson(res);
     return model;
   }
@@ -62,8 +65,8 @@ class SatuanRemoteDataSourceImpl implements SatuanRemoteDataSource{
   }
 
   @override
-  Future<List<DataVoucher>> getAllVoucher() async{
-    final res = await _client.get('/voucher/all');
+  Future<List<DataVoucher>> getAllVoucher(String params) async{
+    final res = await _client.get('/voucher/all?active=$params');
     VoucherModel model = VoucherModel.fromJson(res);
     return model.data;
   }
@@ -71,6 +74,24 @@ class SatuanRemoteDataSourceImpl implements SatuanRemoteDataSource{
   @override
   Future<bool> updateKonfigurasi(Map<String, dynamic> params)async {
     await _client.patch('/konfigurasi', params);
+    return true;
+  }
+
+  @override
+  Future<bool> updateNotifikasi(int id) async {
+    await _client.get('/user/notifikasi/baca/$id');
+    return true;
+  }
+
+  @override
+  Future<bool> updateMenu(Map<String, dynamic> body)async {
+    await _client.patch('/menu', body);
+    return true;
+  }
+
+  @override
+  Future<bool> updateVoucher(Map<String, dynamic> body) async {
+    await _client.patch('/voucher', body);
     return true;
   }
   

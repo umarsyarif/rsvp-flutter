@@ -43,6 +43,7 @@ class DataMenu {
     required this.tipe,
     required this.createdAt,
     required this.satuan,
+    required this.isActive,
     required this.updatedAt,
   });
 
@@ -53,6 +54,7 @@ class DataMenu {
   int diskon;
   int idSatuan;
   String tipe;
+  int isActive;
   DateTime createdAt;
   DateTime updatedAt;
   Satuan satuan;
@@ -64,6 +66,7 @@ class DataMenu {
     harga: json["harga"],
     diskon: json["diskon"],
     idSatuan: json["id_satuan"],
+    isActive: json['is_active'],
     tipe: json["tipe"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),

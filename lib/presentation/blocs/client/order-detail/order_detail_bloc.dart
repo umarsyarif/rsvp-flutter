@@ -30,7 +30,7 @@ class OrderDetailBloc extends Bloc<OrderDetailEvent, OrderDetailState> {
       eithUser.fold((l) =>{}, (r)  {
         userData = r;
       });
-      final eith = await getMenu.call(NoParams());
+      final eith = await getMenu.call('1');
 
       eith.fold(
           (l) => emit(OrderDetailFailure(l.message)),

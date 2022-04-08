@@ -40,12 +40,14 @@ class DataVoucher {
     required this.diskon,
     required this.updatedAt,
     required this.createdAt,
+    required this.isActive
   });
 
   int id;
   String label;
   String foto;
   int diskon;
+  int isActive;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -56,6 +58,7 @@ class DataVoucher {
     diskon: json["diskon"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
+    isActive: json['is_active']
   );
 
   Map<String, dynamic> toJson() => {

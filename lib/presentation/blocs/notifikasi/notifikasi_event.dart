@@ -6,4 +6,8 @@ abstract class NotifikasiEvent extends Equatable {
   List<Object> get props => [];
 }
 class FetchNotifikasiEvent extends NotifikasiEvent{}
-class ReadNotifikasi extends NotifikasiEvent{}
+class ReadNotifikasi extends NotifikasiEvent{
+  final int id;
+
+  const ReadNotifikasi(this.id);
+}

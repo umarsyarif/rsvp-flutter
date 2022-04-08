@@ -25,8 +25,13 @@ class MenuLoadedAdd extends MenuState {
 }
 class MenuLoaded extends MenuState{
   final List<DataMenu> menu;
-
-  MenuLoaded(this.menu);
+  final Status status;
+  final String errMessage;
+  const MenuLoaded(this.menu, this.status, this.errMessage);
+  @override
+  List<Object> get props => [status,menu,errMessage];
+  MenuLoaded copyWith({List<DataMenu>? menu, Status? status, String? errMessage})=>
+      MenuLoaded( menu??this.menu,status??this.status,errMessage??this.errMessage);
 
 }
 class MenuFailure extends MenuState {

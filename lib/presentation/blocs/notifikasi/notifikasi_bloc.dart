@@ -10,6 +10,7 @@ import 'package:kopiek_resto/di/get_it.dart';
 import 'package:kopiek_resto/domain/entities/no_params.dart';
 import 'package:kopiek_resto/domain/usecases/auth/get_detail_user.dart';
 import 'package:kopiek_resto/domain/usecases/data-master/get_notifikasi_user.dart';
+import 'package:kopiek_resto/domain/usecases/data-master/update_notifikasi.dart';
 
 part 'notifikasi_event.dart';
 part 'notifikasi_state.dart';
@@ -18,7 +19,8 @@ part 'notifikasi_state.dart';
 class NotifikasiBloc extends Bloc<NotifikasiEvent, NotifikasiState> {
   final GetNotifikasiUser getNotifikasiUser;
   final GetDetailUser getDetailUser;
-  NotifikasiBloc(this.getNotifikasiUser, this.getDetailUser) : super(NotifikasiInitial()) {
+  final UpdaeNotifikasi updaeNotifikasi;
+  NotifikasiBloc(this.getNotifikasiUser, this.getDetailUser, this.updaeNotifikasi) : super(NotifikasiInitial()) {
     on<FetchNotifikasiEvent>((event, emit)async {
       emit(NotifikasiLoading());
       final eithUser = await getDetailUser.call(NoParams());
@@ -28,6 +30,9 @@ class NotifikasiBloc extends Bloc<NotifikasiEvent, NotifikasiState> {
       });
       final eith = await getNotifikasiUser.call(user.id);
       eith.fold((l) => emit(NotifikasiFailure(l.message)), (r) => emit(NotifikasiLoaded(r)));
+    });
+    on<ReadNotifikasi>((event,emit)async{
+      await updaeNotifikasi.call(event.id);
     });
   }
 }

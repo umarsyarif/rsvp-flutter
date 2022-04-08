@@ -29,7 +29,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       final eithUser = await user.call(NoParams());
       late User userData;
       eithUser.fold((l) => null, (r) => userData=r);
-      final eith = await voucher.call(NoParams());
+      final eith = await voucher.call('');
       eith.fold((l) => emit(CheckoutFailure(l.message)), (r) => emit(CheckoutLoaded(r, Status.loaded,userData)));
     });
     on<PostCheckout>((event, emit) async{

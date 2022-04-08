@@ -7,13 +7,13 @@ import 'package:kopiek_resto/domain/repositories/data_master_repository.dart';
 import 'package:kopiek_resto/domain/usecases/usecase.dart';
 
 @lazySingleton
-class GetAllVoucher extends UseCase<List<DataVoucher>,NoParams>{
+class GetAllVoucher extends UseCase<List<DataVoucher>,String>{
   final DataMasterRepository _repository;
 
   GetAllVoucher(this._repository);
   @override
-  Future<Either<AppError, List<DataVoucher>>> call(NoParams params)async {
-    return await _repository.getAllVoucher();
+  Future<Either<AppError, List<DataVoucher>>> call(String params)async {
+    return await _repository.getAllVoucher(params);
   }
 
 }

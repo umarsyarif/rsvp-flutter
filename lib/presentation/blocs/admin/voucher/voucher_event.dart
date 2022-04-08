@@ -11,3 +11,8 @@ class CreateVoucherEvent extends VoucherEvent{
   const CreateVoucherEvent(this.params);
 }
 class FetchAllVoucherEvent extends VoucherEvent{}
+class UpdateVoucherEvent extends VoucherEvent{
+  final UpdateActiveMenuParams params;
+
+  const UpdateVoucherEvent(this.params);
+}

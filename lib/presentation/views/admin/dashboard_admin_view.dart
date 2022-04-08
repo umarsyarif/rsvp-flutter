@@ -1,8 +1,11 @@
+import 'package:badges/badges.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopiek_resto/common/constants/route_list.dart';
 import 'package:kopiek_resto/common/utils/string_helper.dart';
 import 'package:kopiek_resto/data/models/menu_model.dart';
+import 'package:kopiek_resto/data/models/voucher_model.dart';
 import 'package:kopiek_resto/di/get_it.dart';
 import 'package:kopiek_resto/presentation/blocs/admin/home/home_admin_bloc.dart';
 import 'package:kopiek_resto/presentation/theme/theme.dart';
@@ -22,12 +25,14 @@ class DashboardAdminView extends StatefulWidget {
 class _DashboardAdminViewState extends State<DashboardAdminView> {
 
   late HomeAdminBloc _homeAdminBloc;
+  late int notif;
 
   @override
   void initState() {
     super.initState();
     _homeAdminBloc = di<HomeAdminBloc>();
     _homeAdminBloc.add(FetchHomeAdmin());
+    notif = 0;
   }
 
   @override
@@ -41,13 +46,7 @@ class _DashboardAdminViewState extends State<DashboardAdminView> {
     return BlocProvider(
       create: (_)=>_homeAdminBloc,
       child: Scaffold(
-        appBar: AppBar(title: const Text('Dashboard'),
-          actions: [
-            IconButton(onPressed: (){
-              Navigator.pushNamed(context, RouteList.notifkasi);
-            }, icon: const Icon(Icons.notifications))
-          ],
-        ),
+
         body: BlocBuilder<HomeAdminBloc,HomeAdminState>(
           builder: (context,state){
             if(state is HomeAdminFailure){
@@ -59,100 +58,108 @@ class _DashboardAdminViewState extends State<DashboardAdminView> {
             }else if(state is HomeAdminLoaded){
               return Stack(
                 children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            leading: const CircleAvatar(
-                              backgroundColor: AppColor.primary,
-                              child: Icon(Icons.sync,color: Colors.white,),
+                  SafeArea(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Selamat Datang',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 28),),
+                                Badge(
+                                  position: const BadgePosition(end: -5,top: -5),
+                                  showBadge: state.notifikasi>0,
+                                  badgeContent: Text(state.notifikasi.toString(),style: whiteTextStyle,),
+                                  child: IconButton(onPressed: (){
+                                    Navigator.pushNamed(context, RouteList.notifkasi);
+                                  }, icon: const Icon(Icons.notifications)),
+                                )
+                              ],
                             ),
-                            trailing: Text(state.proses.toString()),
-                            title: const Text('Diproses'),
-                          ),
-                          ListTile(
-                            leading: const CircleAvatar(
-                              backgroundColor: AppColor.primary,
-                              child: Icon(Icons.payments,color: Colors.white,),
-                            ),
-                            trailing: Text(state.paid.toString()),
-                            title: const Text('Sudah Bayar'),
-                          ),
-                          ListTile(
-                            leading: const CircleAvatar(
-                              backgroundColor: AppColor.primary,
-                              child: Icon(Icons.done,color: Colors.white,),
-                            ),
-                            trailing: Text(state.selesai.toString()),
-                            title: const Text('Selesai'),
-                          ),
-                          const Divider(thickness:2),
-                          Text('MAKANAN',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 16),),
-                          const SizedBox(height: 10,),
-                          GridView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.dataMakanan.length>2?2:state.dataMakanan.length,
-                            shrinkWrap: true,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1.5,
-                              mainAxisSpacing: 5,
-                              crossAxisSpacing: 5
-                            ),
-                            itemBuilder: (context,index){
-                              DataMenu menu = state.dataMakanan[index];
-                                return MenuCard(menu: menu);
-                            },
-                          ),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: ActionChip(
-                              label: Text('Selengkapnya',style: whiteTextStyle.copyWith(fontSize: 10),),
-                              backgroundColor: Colors.red,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero
-                              ),
-                              onPressed: (){
-                                Navigator.pushNamed(context, RouteList.dataMaster);
+                            Text('PROMO',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 16),),
+                            const SizedBox(height: 10,),
+                            CarouselSlider.builder(
+                              itemCount: state.dataVoucher.length,
+                              itemBuilder: (context,index,j){
+                                DataVoucher data = state.dataVoucher[index];
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.network(data.foto,fit: BoxFit.fill,),
+                                );
                               },
+                              options: CarouselOptions(
+                                aspectRatio: 2,
+                                viewportFraction: 1
+                              ),
                             ),
-                          ),
-                          const Divider(thickness: 2,),
-                          Text('MINUMAN',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 16),),
-                          const SizedBox(height: 10,),
-                          GridView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.dataMinuman.length>2?2:state.dataMinuman.length,
-                            shrinkWrap: true,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            const Divider(thickness:2),
+                            Text('MAKANAN',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 16),),
+                            const SizedBox(height: 10,),
+                            GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.dataMakanan.length>2?2:state.dataMakanan.length,
+                              shrinkWrap: true,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 childAspectRatio: 1.5,
                                 mainAxisSpacing: 5,
                                 crossAxisSpacing: 5
-                            ),
-                            itemBuilder: (context,index){
-                              DataMenu menu = state.dataMinuman[index];
-                              return MenuCard(menu: menu);
-                            },
-                          ),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: ActionChip(
-                              label: Text('Selengkapnya',style: whiteTextStyle.copyWith(fontSize: 10),),
-                              backgroundColor: Colors.red,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.zero
                               ),
-                              onPressed: (){
-                                Navigator.pushNamed(context, RouteList.dataMaster);
+                              itemBuilder: (context,index){
+                                DataMenu menu = state.dataMakanan[index];
+                                  return MenuCard(menu: menu);
                               },
                             ),
-                          ),
-                          const SizedBox(height: 50,),
-                        ],
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: ActionChip(
+                                label: Text('Selengkapnya',style: whiteTextStyle.copyWith(fontSize: 10),),
+                                backgroundColor: Colors.red,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.zero
+                                ),
+                                onPressed: (){
+                                  Navigator.pushNamed(context, RouteList.dataMaster);
+                                },
+                              ),
+                            ),
+                            const Divider(thickness: 2,),
+                            Text('MINUMAN',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 16),),
+                            const SizedBox(height: 10,),
+                            GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.dataMinuman.length>2?2:state.dataMinuman.length,
+                              shrinkWrap: true,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 1.5,
+                                  mainAxisSpacing: 5,
+                                  crossAxisSpacing: 5
+                              ),
+                              itemBuilder: (context,index){
+                                DataMenu menu = state.dataMinuman[index];
+                                return MenuCard(menu: menu);
+                              },
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: ActionChip(
+                                label: Text('Selengkapnya',style: whiteTextStyle.copyWith(fontSize: 10),),
+                                backgroundColor: Colors.red,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero
+                                ),
+                                onPressed: (){
+                                  Navigator.pushNamed(context, RouteList.dataMaster);
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 50,),
+                          ],
+                        ),
                       ),
                     ),
                   ),

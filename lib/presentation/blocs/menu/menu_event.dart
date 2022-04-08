@@ -12,4 +12,9 @@ class AddMenuEvent extends MenuEvent{
   const AddMenuEvent(this.params);
 }
 class FetchMenuEvent extends MenuEvent{}
+class UpdateActiveMenuEvent extends MenuEvent{
+  final UpdateActiveMenuParams params;
+
+  const UpdateActiveMenuEvent(this.params);
+}
 

@@ -61,8 +61,9 @@ class _NotificationViewState extends State<NotificationView> {
                           title: Text(e.isi),
                           leading: const Icon(Icons.notifications),
                           onTap: (){
+                            notifikasiBloc.add(ReadNotifikasi(e.id));
                             if(e.type=='Order'){
-                              Navigator.pushNamed(context, RouteList.detailOrderAdmin,arguments: jsonDecode(e.keterangan)['id_order']);
+                              Navigator.pushNamed(context, RouteList.detailOrderAdmin,arguments: jsonDecode(e.keterangan)['id_order']).then((value) => notifikasiBloc.add(FetchNotifikasiEvent()));
                             }
                           },
                         ),

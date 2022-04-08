@@ -14,8 +14,16 @@ class VoucherLoading extends VoucherState {
 }
 class VoucherLoaded extends VoucherState {
   final List<DataVoucher> data;
+  final Status status;
+  final String errMessage;
 
-  VoucherLoaded(this.data);
+  const VoucherLoaded(this.data, this.status, this.errMessage);
+  @override
+  List<Object> get props => [data,status,errMessage];
+
+  VoucherLoaded copyWith({List<DataVoucher>? data,Status? status,String? errMessage})=>
+      VoucherLoaded(data??this.data, status??this.status, errMessage??this.errMessage);
+
 }
 class VoucherCreated extends VoucherState {
 
