@@ -10,10 +10,12 @@ import 'package:kopiek_resto/data/models/satuan_model.dart';
 import 'package:kopiek_resto/domain/entities/menu_params.dart';
 import 'package:kopiek_resto/domain/entities/no_params.dart';
 import 'package:kopiek_resto/domain/entities/update_menu_params.dart';
+import 'package:kopiek_resto/domain/entities/update_stok_params.dart';
 import 'package:kopiek_resto/domain/usecases/data-master/get_menu.dart';
 import 'package:kopiek_resto/domain/usecases/data-master/get_satuan.dart';
 import 'package:kopiek_resto/domain/usecases/data-master/post_menu.dart';
 import 'package:kopiek_resto/domain/usecases/data-master/set_active_menu.dart';
+import 'package:kopiek_resto/domain/usecases/data-master/update_stok.dart';
 import 'package:kopiek_resto/presentation/blocs/loading/loading_bloc.dart';
 
 part 'menu_event.dart';
@@ -25,8 +27,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final GetSatuan satuan;
   final PostMenu menu;
   final GetMenu dataMenu;
+  final UpdateStok updateStok;
   final SetActiveMenu activeMenu;
-  MenuBloc(this.loading, this.satuan, this.menu, this.dataMenu, this.activeMenu) : super(MenuInitial()) {
+  MenuBloc(this.loading, this.satuan, this.menu, this.dataMenu, this.activeMenu, this.updateStok) : super(MenuInitial()) {
     on<FetchSatuan>((event, emit) async{
       emit(MenuLoading());
       final eith = await satuan.call(NoParams());
@@ -59,6 +62,15 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       loading.add(StartLoading());
       if(currentState is MenuLoaded){
         final eith = await activeMenu.call(event.params);
+        eith.fold((l) => emit(currentState.copyWith(status: Status.failure,errMessage: l.message)), (r) => emit(currentState.copyWith(status: Status.success)));
+      }
+      loading.add(FinishLoading());
+    });
+    on<UpdateStokMenuEvent>((event,emit)async{
+      final currentState = state;
+      loading.add(StartLoading());
+      if(currentState is MenuLoaded){
+        final eith = await updateStok.call(event.params);
         eith.fold((l) => emit(currentState.copyWith(status: Status.failure,errMessage: l.message)), (r) => emit(currentState.copyWith(status: Status.success)));
       }
       loading.add(FinishLoading());

@@ -72,7 +72,7 @@ class _OrderViewState extends State<OrderView> {
                             padding: const EdgeInsets.all(10),
                             decoration:BoxDecoration(
                               color: Colors.yellow[900],
-                              borderRadius: BorderRadius.circular(10)
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             child: Row(
                               children: [
@@ -82,6 +82,7 @@ class _OrderViewState extends State<OrderView> {
                               ],
                             ),
                           ),
+                          vSpace(10),
                           TextFieldWidget(
                               hintText: 'Jumlah Orang',
                               typeInput: TextInputType.number,

@@ -69,7 +69,7 @@ class _LoginViewState extends State<LoginView> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('KOPIEK RESTO', style: blackTextStyle.copyWith(fontSize: 32,fontWeight: extraBold),),
+                        Container(color: Colors.white,child: Text('KOPIEK RESTO', style: blackTextStyle.copyWith(fontSize: 32,fontWeight: extraBold),)),
                         vSpace(10),
                         Card(
                           elevation: 0,

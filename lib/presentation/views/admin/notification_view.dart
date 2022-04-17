@@ -51,26 +51,21 @@ class _NotificationViewState extends State<NotificationView> {
                 },
               );
             }else if(state is NotifikasiLoaded){
-              return Padding(
-                padding: const EdgeInsets.all(10),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children:state.data.map((e) => Column(
-                      children: [
-                        ListTile(
-                          title: Text(e.isi),
-                          leading: const Icon(Icons.notifications),
-                          onTap: (){
-                            notifikasiBloc.add(ReadNotifikasi(e.id));
-                            if(e.type=='Order'){
-                              Navigator.pushNamed(context, RouteList.detailOrderAdmin,arguments: jsonDecode(e.keterangan)['id_order']).then((value) => notifikasiBloc.add(FetchNotifikasiEvent()));
-                            }
-                          },
-                        ),
-                        const Divider(),
-                      ],
-                    )).toList(),
-                  ),
+              return SingleChildScrollView(
+                child: Column(
+                  children:state.data.map((e) => Container(
+                    color:e.seen==0?Colors.grey[300]:Colors.white,
+                    child: ListTile(
+                      title: Text(e.isi),
+                      leading: const Icon(Icons.notifications),
+                      onTap: (){
+                        notifikasiBloc.add(ReadNotifikasi(e.id));
+                        if(e.type=='Order'){
+                          Navigator.pushNamed(context, RouteList.detailOrderAdmin,arguments: jsonDecode(e.keterangan)['id_order']).then((value) => notifikasiBloc.add(FetchNotifikasiEvent()));
+                        }
+                      },
+                    ),
+                  )).toList(),
                 ),
               );
             }

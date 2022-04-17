@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 
 Color kPrimaryColor = const Color(0xFF041E41);
 Color kBlackColor = Colors.black;
@@ -28,7 +29,7 @@ TextStyle redTextStyle = GoogleFonts.poppins(
     color: kRedColor
 );
 TextStyle primaryTextStyle = GoogleFonts.poppins(
-    color: kPrimaryColor
+    color: AppColor.primary
 );
 
 FontWeight light = FontWeight.w300;

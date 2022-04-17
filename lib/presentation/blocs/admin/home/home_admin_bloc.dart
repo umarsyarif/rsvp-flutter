@@ -33,7 +33,7 @@ class HomeAdminBloc extends Bloc<HomeAdminEvent, HomeAdminState> {
     on<FetchHomeAdmin>((event, emit) async{
       emit(HomeAdminLoading());
       final eithProses = await count.call('diproses');
-      final eithPaid = await count.call('selesai');
+      final eithPaid = await count.call('sudah bayar');
       final eithUser = await getDetailUser.call(NoParams());
       final eithVoucher = await getAllVoucher.call('');
       late User user;
@@ -50,7 +50,7 @@ class HomeAdminBloc extends Bloc<HomeAdminEvent, HomeAdminState> {
         eithPaid.fold((l) => null, (r){
           paid = r;
         });
-        notifikasi = eithNotifikasi.toOption().toNullable()!.length;
+        notifikasi = eithNotifikasi.toOption().toNullable()!.where((element) => element.seen==0).length;
         voucher = eithVoucher.toOption().toNullable()!;
         final eithMenu = await dataMenu.call('');
         eithMenu.fold((l) => emit(HomeAdminFailure(l.message)), (r){

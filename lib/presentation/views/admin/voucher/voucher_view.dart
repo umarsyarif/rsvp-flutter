@@ -85,7 +85,13 @@ class _VoucherViewState extends State<VoucherView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(data.label,style: greyTextStyle,),
-                                Text(valueRupiah(data.diskon),style: blackTextStyle,)
+                                Text(valueRupiah(data.diskon),style: blackTextStyle,),
+                                ActionChip(label:  Text('Ubah Vuucher',style: whiteTextStyle,), onPressed: (){
+                                  Navigator.pushNamed(context, RouteList.ubahVoucher,arguments: data);
+                                },
+                                  shape: const StadiumBorder(side: BorderSide(color: AppColor.primary)),
+                                  backgroundColor: AppColor.primary,
+                                ),
                               ],
                             ),
                             Switch(value: data.isActive==1, onChanged: (val){
@@ -94,7 +100,10 @@ class _VoucherViewState extends State<VoucherView> {
                               activeColor: AppColor.primary,
                             ),
                           ],
-                        )
+                        ),
+                        const Divider(),
+                        vSpace(10),
+                        index==state.data.length-1?vSpace(50):const SizedBox.shrink(),
                       ],
                     );
                   },

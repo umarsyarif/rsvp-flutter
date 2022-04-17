@@ -130,7 +130,7 @@ class _TambahVoucherViewState extends State<TambahVoucherView> {
                                 ),
                                 vSpace(16),
                                 Text(
-                                  'Tambahkan Foto Menu',
+                                  'Tambahkan Foto Voucher',
                                   style: blackTextStyle,
                                 )
                               ],
@@ -143,7 +143,10 @@ class _TambahVoucherViewState extends State<TambahVoucherView> {
                     CustomFlatButton(
                       backgroundColor: AppColor.primary,
                       onPressed: (){
-                        if(_form.currentState?.validate()??false){
+                        if(foto.isEmpty){
+                          EasyLoading.showError('Foto belum ditambahkan');
+                        }
+                        else if(_form.currentState?.validate()??false){
                           _voucherBloc.add(CreateVoucherEvent(VoucherParams(label.text,foto,int.parse(valueNoRp(diskon.text)))));
                         }
                       },

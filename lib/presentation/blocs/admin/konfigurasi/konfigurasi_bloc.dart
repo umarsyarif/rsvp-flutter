@@ -45,5 +45,19 @@ class KonfigurasiBloc extends Bloc<KonfigurasiEvent, KonfigurasiState> {
         loadingBloc.add(FinishLoading());
       }
     });
+    on<UbahProfilRestoranEvent>((event,emit)async{
+      final currentState = state;
+      if(currentState is KonfigurasiLoaded){
+        emit(currentState.copyWith(status: Status.loading));
+        loadingBloc.add(StartLoading());
+        final eith = await updateKonfigurasi.call({
+          'id':1,
+          'profil':event.profil,
+          'link_gmaps':event.linkGmaps,
+        });
+        eith.fold((l) => emit(currentState.copyWith(status: Status.failure,errMessage: l.message)), (r) => emit(currentState.copyWith(status: Status.success)));
+        loadingBloc.add(FinishLoading());
+      }
+    });
   }
 }

@@ -210,7 +210,10 @@ class _TambahMenuState extends State<TambahMenu> {
                         CustomFlatButton(
                           backgroundColor: AppColor.primary,
                           onPressed: (){
-                            if(_form.currentState?.validate()??false){
+                            if(foto.isEmpty){
+                              EasyLoading.showError('Foto belum ditambahkan');
+                            }
+                            else if(_form.currentState?.validate()??false){
                               _menuBloc.add(AddMenuEvent(MenuParams(
                                 nama.text,foto,idSatuan!,jenis!,int.parse(valueNoRp(harga.text)),int.parse(diskon.text),int.parse(stok.text)
                               )));

@@ -12,6 +12,7 @@ import 'package:kopiek_resto/presentation/theme/theme.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
 import 'package:kopiek_resto/presentation/widgets/custom_flat_button.dart';
+import 'package:kopiek_resto/presentation/widgets/dialog_gambar.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
 
 class DashboardAdminView extends StatefulWidget {
@@ -85,14 +86,20 @@ class _DashboardAdminViewState extends State<DashboardAdminView> {
                               itemCount: state.dataVoucher.length,
                               itemBuilder: (context,index,j){
                                 DataVoucher data = state.dataVoucher[index];
-                                return ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.network(data.foto,fit: BoxFit.fill,),
+                                return InkWell(
+                                  onTap: (){
+                                    showGambar(context, data.foto);
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.network(data.foto,fit: BoxFit.fill,),
+                                  ),
                                 );
                               },
                               options: CarouselOptions(
                                 aspectRatio: 2,
-                                viewportFraction: 1
+                                viewportFraction: 1,
+                                autoPlay: true
                               ),
                             ),
                             const Divider(thickness:2),
@@ -204,7 +211,9 @@ class MenuCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.network(menu.foto),
+        InkWell(child: Image.network(menu.foto),onTap: (){
+          showGambar(context, menu.foto);
+        },),
         Container(
           color: AppColor.primary,
           padding: const EdgeInsets.all(5),

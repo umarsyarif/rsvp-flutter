@@ -18,6 +18,8 @@ abstract class SatuanRemoteDataSource{
   Future<bool> updateNotifikasi(int id);
   Future<bool> updateMenu(Map<String,dynamic> body);
   Future<bool> updateVoucher(Map<String,dynamic> body);
+  Future<bool> updateStokMenu(Map<String,dynamic> body);
+  Future<String> uploadFile(FormData data);
 }
 
 @LazySingleton(as: SatuanRemoteDataSource)
@@ -94,5 +96,16 @@ class SatuanRemoteDataSourceImpl implements SatuanRemoteDataSource{
     await _client.patch('/voucher', body);
     return true;
   }
-  
+
+  @override
+  Future<bool> updateStokMenu(Map<String, dynamic> body) async {
+    await _client.patch('/stok', body);
+    return true;
+  }
+
+  @override
+  Future<String> uploadFile(FormData data)async {
+    final res = await _client.postFormData('/file/upload', data);
+    return res['data'].toString();
+  }
 }

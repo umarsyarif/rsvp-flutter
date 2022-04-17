@@ -37,6 +37,8 @@ class DataKonfigurasi {
     required this.id,
     required this.buka,
     required this.tutup,
+    required this.profil,
+    required this.linkGmaps,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -44,6 +46,8 @@ class DataKonfigurasi {
   int id;
   String buka;
   String tutup;
+  String profil;
+  String linkGmaps;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -51,6 +55,8 @@ class DataKonfigurasi {
     id: json["id"],
     buka: json["buka"],
     tutup: json["tutup"],
+    profil: json['profil'],
+    linkGmaps: json['link_gmaps'],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );

@@ -14,8 +14,8 @@ class RiwayatPoinLoading extends RiwayatPoinState {
 }
 class RiwayatPoinLoaded extends RiwayatPoinState {
   final List<DataRiwayatPoin> data;
-
-  const RiwayatPoinLoaded(this.data);
+  final int poin;
+  const RiwayatPoinLoaded(this.data, this.poin);
 
 }
 class RiwayatPoinFailure extends RiwayatPoinState {

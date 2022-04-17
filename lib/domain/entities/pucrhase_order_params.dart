@@ -8,6 +8,7 @@ class PurchaseOrderParams{
   final List<String> catatan;
   final List<int> jumlah;
   final String idVoucher;
+  final int poin;
 
   PurchaseOrderParams(
       {required this.idPengguna,
@@ -18,7 +19,7 @@ class PurchaseOrderParams{
       required this.idMenu,
       required this.catatan,
       required this.jumlahOrang,
-      required this.idVoucher});
+      required this.idVoucher,required this.poin,});
   Map<String,dynamic> toJson()=>{
     'id_pengguna':idPengguna,
     'jumlah':jumlah,
@@ -28,6 +29,7 @@ class PurchaseOrderParams{
     'id_menu':idMenu,
     'catatan':catatan,
     'jumlah_orang':jumlahOrang,
-    'id_voucher':idVoucher
+    'id_voucher':idVoucher,
+    'poin':poin
   };
 }

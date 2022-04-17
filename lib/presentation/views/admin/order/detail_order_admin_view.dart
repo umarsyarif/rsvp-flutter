@@ -142,7 +142,7 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Sub Total',style: blackTextStyle,),
-                                        Text(valueRupiah(state.data.total+state.data.diskon))
+                                        Text(valueRupiah(state.data.subtotal))
                                       ],
                                     ),
                                     Row(
@@ -150,6 +150,13 @@ class _DetailOrderAdminViewState extends State<DetailOrderAdminView> {
                                       children: [
                                         Text('Diskon',style: blackTextStyle,),
                                         Text(valueRupiah(state.data.diskon))
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Redeem Poin',style: blackTextStyle,),
+                                        Text(valueRupiah((state.data.poinOrder?.nominal??0)*10000))
                                       ],
                                     ),
                                     const Divider(thickness: 1,),

@@ -54,6 +54,7 @@ class _KonfigurasiViewState extends State<KonfigurasiView> {
                 _konfigurasiBloc.add(FetchKonfigurasiEvent());
               },);
             }else if(state is KonfigurasiLoaded){
+
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -75,7 +76,14 @@ class _KonfigurasiViewState extends State<KonfigurasiView> {
                         onTap: (){
                           Navigator.pushNamed(context, RouteList.dataMaster);
                         },
-
+                      ),
+                      ListTile(
+                        leading: CircleAvatar(child: Icon(Icons.settings,color: Colors.white,),backgroundColor: AppColor.primary,),
+                        title: Text('Profil Restoran'),
+                        trailing: Icon(Icons.arrow_forward_ios),
+                        onTap: (){
+                          Navigator.pushNamed(context, RouteList.ubahProfilResto);
+                        },
                       ),
                       ListTile(
                         leading: const CircleAvatar(child: Icon(Icons.logout,color: Colors.white,),backgroundColor: AppColor.primary,),

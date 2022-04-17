@@ -49,6 +49,7 @@ class DataOrder {
     required this.detailOrder,
     this.voucherOrder,
     required this.pengguna,
+    this.poinOrder
   });
 
   int id;
@@ -66,6 +67,7 @@ class DataOrder {
   List<DetailOrder> detailOrder;
   VoucherOrder? voucherOrder;
   Pengguna pengguna;
+  PoinOrder? poinOrder;
 
   factory DataOrder.fromJson(Map<String, dynamic> json) => DataOrder(
     id: json["id"],
@@ -82,6 +84,7 @@ class DataOrder {
     statusOrder: List<StatusOrder>.from(json["status_order"].map((x) => StatusOrder.fromJson(x))),
     detailOrder: List<DetailOrder>.from(json["detail_order"].map((x) => DetailOrder.fromJson(x))),
     voucherOrder: json["voucher_order"]==null?null:VoucherOrder.fromJson(json['voucher_order']),
+    poinOrder: json['poin_order']==null?null: PoinOrder.fromJson(json["poin_order"]),
     pengguna: Pengguna.fromJson(json["pengguna"]),
   );
 
@@ -101,6 +104,7 @@ class DataOrder {
     "detail_order": List<dynamic>.from(detailOrder.map((x) => x.toJson())),
     "voucher_order": voucherOrder,
     "pengguna": pengguna.toJson(),
+
   };
 }
 
@@ -151,7 +155,45 @@ class DetailOrder {
     "menu": menu.toJson(),
   };
 }
+class PoinOrder {
+  PoinOrder({
+    required this.id,
+    required this.idPengguna,
+    required this.nominal,
+    required this.tipe,
+    required this.idOrder,
+    required this.createdAt,
+    required this.updatedAt,
+  });
 
+  int id;
+  int idPengguna;
+  int nominal;
+  String tipe;
+  int idOrder;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory PoinOrder.fromJson(Map<String, dynamic> json) => PoinOrder(
+    id: json["id"],
+    idPengguna: json["id_pengguna"],
+    nominal: json["nominal"],
+    tipe: json["tipe"],
+    idOrder: json["id_order"] == null ? null : json["id_order"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "id_pengguna": idPengguna,
+    "nominal": nominal,
+    "tipe": tipe,
+    "id_order": idOrder == null ? null : idOrder,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+  };
+}
 class Menu {
   Menu({
     required this.id,

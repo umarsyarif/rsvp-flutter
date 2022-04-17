@@ -1,6 +1,13 @@
 class VoucherParams{
-  final String label,foto;
+  final String label;
+  String foto;
   final int diskon;
-
-  VoucherParams(this.label, this.foto, this.diskon);
+  final String? id;
+  VoucherParams(this.label, this.foto, this.diskon,{this.id});
+  Map<String,dynamic> toJson()=>{
+    'id':id,
+    'label':label,
+    'diskon':diskon,
+    'foto':foto,
+  };
 }

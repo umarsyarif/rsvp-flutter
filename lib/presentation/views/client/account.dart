@@ -108,6 +108,18 @@ class _AccountViewState extends State<AccountView> {
                             borderRadius: BorderRadius.circular(10)
                         ),
                         child: ListTile(
+                          leading: const CircleAvatar(child: Icon(Icons.restaurant,color: Colors.white,),backgroundColor: AppColor.primary,),
+                          title: Text('Tentang restoran',style: blackTextStyle.copyWith(fontWeight: bold),),
+                          onTap: (){
+                            Navigator.pushNamed(context, RouteList.lihatProfilResto);
+                          },
+                        ),
+                      ),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: ListTile(
                           leading: const CircleAvatar(child: Icon(Icons.logout,color: Colors.white,),backgroundColor: AppColor.primary,),
                           title: Text('Logout',style: blackTextStyle.copyWith(fontWeight: bold),),
                           onTap: (){

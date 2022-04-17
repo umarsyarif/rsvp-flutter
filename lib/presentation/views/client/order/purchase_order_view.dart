@@ -15,6 +15,7 @@ import 'package:kopiek_resto/presentation/theme/theme.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
 import 'package:kopiek_resto/presentation/widgets/custom_flat_button.dart';
+import 'package:kopiek_resto/presentation/widgets/dialog_gambar.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
 import 'package:kopiek_resto/presentation/widgets/text_fied_widget.dart';
 
@@ -33,6 +34,8 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
   late int totalBayar;
   int diskon = 0;
   String? idVoucher;
+  late bool usePoin;
+  late int usedPoin;
 
   @override
   void initState() {
@@ -40,7 +43,8 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
     _checkoutBloc = di<CheckoutBloc>();
     _checkoutBloc.add(FetchChekcoutEvent());
     totalBayar = 0;
-
+    usePoin = false;
+    usedPoin = 0;
     for(var item in widget.makanan){
       totalBayar+=(item.jumlah*item.menu.harga);
     }
@@ -84,6 +88,7 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                 _checkoutBloc.add(FetchChekcoutEvent());
               });
             }else if(state is CheckoutLoaded){
+              idVoucher = state.idVoucher?.toString();
               return SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: Stack(
@@ -144,7 +149,9 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                         ],
                                       ),
                                       trailing: Text(params.jumlah.toString(),style: blackTextStyle.copyWith(fontWeight: bold),),
-                                      leading: Image.network(params.menu.foto),
+                                      leading: InkWell(onTap:(){
+                                        showGambar(context, params.menu.foto);
+                                      },child: Image.network(params.menu.foto)),
                                     );
                                   },
                                 ),
@@ -183,7 +190,9 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                         ],
                                       ),
                                       trailing: Text(params.jumlah.toString(),style: blackTextStyle.copyWith(fontWeight: bold),),
-                                      leading: Image.network(params.menu.foto),
+                                      leading: InkWell(onTap:(){
+                                        showGambar(context, params.menu.foto);
+                                      },child: Image.network(params.menu.foto)),
                                     );
                                   },
                                 ),
@@ -192,7 +201,7 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                             vSpace(10),
                             state.data.isNotEmpty?Column(
                               children: [
-                                Container(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   child: DropdownButtonFormField<String>(
                                     items: state.data.map((e) => DropdownMenuItem(child: Text('${e.label} - ${valueRupiah(e.diskon)}'),value: e.id.toString(),)).toList(),
@@ -211,6 +220,31 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                 vSpace(10),
                               ],
                             ):const SizedBox(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                              Text('Gunakan poin :\nJumlah Poin : ${state.poin}',style: blackTextStyle.copyWith(fontWeight: bold),),
+                                Switch(value: usePoin, onChanged: (_){
+                                  usePoin = !usePoin;
+                                  if(usePoin){
+                                    int total = totalBayar-diskon;
+                                    int cut = (total/10000).floor();
+                                    if(cut>state.poin){
+                                      usedPoin = state.poin;
+                                    }else{
+                                      usedPoin = cut;
+
+                                    }
+                                  }else{
+                                    usedPoin = 0;
+                                  }
+                                  setState(() {
+
+                                  });
+                                },
+                                  activeColor: AppColor.primary,
+                                ),
+                            ]),
                             Card(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -239,12 +273,19 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                         Text(valueRupiah(diskon))
                                       ],
                                     ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Poin',style: blackTextStyle,),
+                                        Text(usePoin?valueRupiah(usedPoin*10000):valueRupiah(0))
+                                      ],
+                                    ),
                                     const Divider(thickness: 1,),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Harga',style: blackTextStyle,),
-                                        Text(valueRupiah(totalBayar-diskon))
+                                        Text(valueRupiah(totalBayar-diskon-(usedPoin*10000)))
                                       ],
                                     ),
                                   ],
@@ -263,7 +304,6 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.all(16),
                         child: CustomFlatButton(backgroundColor: AppColor.primary, label: 'CHECKOUT', onPressed: ()async{
-
                           PurchaseOrderParams params = PurchaseOrderParams(
                               idPengguna: state.user.id.toString(),
                               jumlah: widget.makanan.map((e) => e.jumlah).toList()..addAll(widget.minuman.map((e) => e.jumlah)),
@@ -273,6 +313,7 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                               idMenu: widget.makanan.map((e) => e.menu.id.toString()).toList()..addAll(widget.minuman.map((e) => e.menu.id.toString())),
                               catatan: widget.makanan.map((e) => e.catatan).toList()..addAll(widget.minuman.map((e) => e.catatan)),
                               jumlahOrang: widget.orderParams.jumlahOrang,
+                              poin: usedPoin,
                               idVoucher: idVoucher??'-');
                           // print(jsonEncode(params.toJson()));
                           _checkoutBloc.add(PostCheckout(params));

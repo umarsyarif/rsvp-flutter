@@ -17,4 +17,9 @@ class RouteList{
   static const String dataMaster ='/data-master';
   static const String notifkasi ='/notifikasi';
   static const String jadwalRestoran = '/jadwal-restoran';
+  static const String ubahMenu = '/menu/ubah';
+  static const String ubahVoucher = '/voucher/ubah';
+  static const String redeemVoucher = '/voucher/redeem';
+  static const String ubahProfilResto = 'profil/resto/ubah';
+  static const String lihatProfilResto = '/profil/resto/lihat';
 }

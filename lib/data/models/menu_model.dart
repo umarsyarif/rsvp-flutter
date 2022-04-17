@@ -45,6 +45,7 @@ class DataMenu {
     required this.satuan,
     required this.isActive,
     required this.updatedAt,
+    required this.stok,
   });
 
   int id;
@@ -58,6 +59,7 @@ class DataMenu {
   DateTime createdAt;
   DateTime updatedAt;
   Satuan satuan;
+  Stok stok;
 
   factory DataMenu.fromJson(Map<String, dynamic> json) => DataMenu(
     id: json["id"],
@@ -71,6 +73,7 @@ class DataMenu {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     satuan: Satuan.fromJson(json["satuan"]),
+    stok: Stok.fromJson(json["stok"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -114,3 +117,35 @@ class Satuan {
     "updated_at": updatedAt.toIso8601String(),
   };
 }
+class Stok {
+  Stok({
+    required this.id,
+    required this.idMenu,
+    required this.jumlah,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  int id;
+  int idMenu;
+  int jumlah;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory Stok.fromJson(Map<String, dynamic> json) => Stok(
+    id: json["id"] == null ? null : json["id"],
+    idMenu: json["id_menu"] == null ? null : json["id_menu"],
+    jumlah: json["jumlah"] == null ? null : json["jumlah"],
+    createdAt:  DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "id_menu": idMenu == null ? null : idMenu,
+    "jumlah": jumlah == null ? null : jumlah,
+    "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+    "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+  };
+}
+

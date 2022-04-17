@@ -7,6 +7,7 @@ import 'package:kopiek_resto/data/data_sources/auth_local_data_source.dart';
 import 'package:kopiek_resto/data/data_sources/auth_remote_data_source.dart';
 import 'package:kopiek_resto/data/models/login_model.dart';
 import 'package:kopiek_resto/data/models/notifikasi_model.dart';
+import 'package:kopiek_resto/data/models/voucher_model.dart';
 import 'package:kopiek_resto/domain/entities/app_error.dart';
 import 'package:kopiek_resto/domain/entities/login_params.dart';
 import 'package:kopiek_resto/domain/entities/register_params.dart';
@@ -137,6 +138,72 @@ class AuthRepositoryImpl implements AuthRepository{
     try {
       NotifikasiModel model = await _remote.getNotifikasiUser(params);
       return  Right(model.data);
+    } on SocketException {
+      return const Left(AppError(AppErrorType.network,
+          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const Left(AppError(AppErrorType.network,
+            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+      }
+      return Left(
+          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
+    } on Exception {
+      return const Left(AppError(AppErrorType.database, message: 'Terjadi kesalahan server'));
+    }
+  }
+
+  @override
+  Future<Either<AppError, int>> getPoinPengguna(int params)async {
+    try {
+      int model = await _remote.getUserPoin(params);
+      return  Right(model);
+    } on SocketException {
+      return const Left(AppError(AppErrorType.network,
+          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const Left(AppError(AppErrorType.network,
+            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+      }
+      return Left(
+          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
+    } on Exception {
+      return const Left(AppError(AppErrorType.database, message: 'Terjadi kesalahan server'));
+    }
+  }
+
+  @override
+  Future<Either<AppError, DataVoucher?>> getRedeemedVoucher() async {
+    try {
+      DataVoucher? model = await _localDataSource.getRedeemedVoucher();
+      return  Right(model);
+    } on SocketException {
+      return const Left(AppError(AppErrorType.network,
+          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const Left(AppError(AppErrorType.network,
+            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+      }
+      return Left(
+          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
+    } on Exception {
+      return const Left(AppError(AppErrorType.database, message: 'Terjadi kesalahan server'));
+    }
+  }
+
+  @override
+  Future<Either<AppError, bool>> saveRedeemedVoucher(DataVoucher params) async {
+    try {
+      bool model = await _localDataSource.saveRedeemedVoucher(params.toJson());
+      return  Right(model);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
           message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));

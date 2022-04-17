@@ -17,4 +17,9 @@ class UpdateActiveMenuEvent extends MenuEvent{
 
   const UpdateActiveMenuEvent(this.params);
 }
+class UpdateStokMenuEvent extends MenuEvent{
+  final UpdateStokParams params;
+
+  const UpdateStokMenuEvent(this.params);
+}
 

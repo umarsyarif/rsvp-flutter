@@ -11,6 +11,7 @@ import 'package:kopiek_resto/presentation/theme/theme.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
 import 'package:kopiek_resto/presentation/widgets/custom_flat_button.dart';
+import 'package:kopiek_resto/presentation/widgets/dialog_gambar.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
 
 class DetailOrderView extends StatefulWidget {
@@ -98,13 +99,16 @@ class _DetailOrderViewState extends State<DetailOrderView> with SingleTickerProv
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Expanded(child: Image.network(data.foto,height: 75,),flex: 4,),
-                                          Spacer(),
+                                          Expanded(child: InkWell(onTap:(){
+                                            showGambar(context, data.foto);
+                                          },child: Image.network(data.foto,height: 75,)),flex: 4,),
+                                          const Spacer(),
                                           Expanded(child: Column(
                                             crossAxisAlignment:CrossAxisAlignment.start,
                                             children: [
                                               Text(data.nama),
                                               Text(valueRupiah(data.harga)),
+                                              Text('Stok : ${data.stok.jumlah}')
                                             ],
                                           ),flex: 8,),
 
@@ -112,7 +116,7 @@ class _DetailOrderViewState extends State<DetailOrderView> with SingleTickerProv
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
-                                                IconButton(icon: Icon(Icons.add_circle_outline),onPressed: (){
+                                                IconButton(icon: Icon(Icons.add_circle_outline),onPressed:state.makanan[index].jumlah>=state.makanan[index].menu.stok.jumlah?null: (){
                                                   state.makanan[index].jumlah+=1;
                                                   setState(() {
 
@@ -152,13 +156,16 @@ class _DetailOrderViewState extends State<DetailOrderView> with SingleTickerProv
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Expanded(child: Image.network(data.foto,height: 75,),flex: 4,),
+                                          Expanded(child: InkWell(onTap:(){
+                                            showGambar(context, data.foto);
+                                          },child: Image.network(data.foto,height: 75,)),flex: 4,),
                                           Spacer(),
                                           Expanded(child: Column(
                                             crossAxisAlignment:CrossAxisAlignment.start,
                                             children: [
                                               Text(data.nama),
                                               Text(valueRupiah(data.harga)),
+                                              Text('Stok : ${data.stok.jumlah}')
                                             ],
                                           ),flex: 8,),
 
@@ -166,7 +173,7 @@ class _DetailOrderViewState extends State<DetailOrderView> with SingleTickerProv
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
-                                                IconButton(icon: Icon(Icons.add_circle_outline),onPressed: (){
+                                                IconButton(icon: Icon(Icons.add_circle_outline),onPressed:state.minuman[index].jumlah>=state.minuman[index].menu.stok.jumlah?null: (){
                                                   state.minuman[index].jumlah+=1;
                                                   setState(() {
 

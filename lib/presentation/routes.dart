@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:kopiek_resto/common/constants/route_list.dart';
+import 'package:kopiek_resto/data/models/menu_model.dart';
+import 'package:kopiek_resto/data/models/voucher_model.dart';
 import 'package:kopiek_resto/domain/entities/order_params.dart';
 import 'package:kopiek_resto/presentation/views/admin/data-master/data_master_tab_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/data-master/tambah_menu.dart';
+import 'package:kopiek_resto/presentation/views/admin/data-master/update_menu_view.dart';
+import 'package:kopiek_resto/presentation/views/admin/data-master/update_voucher_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/home.dart';
 import 'package:kopiek_resto/presentation/views/admin/jadwal_restoran.dart';
 import 'package:kopiek_resto/presentation/views/admin/notification_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/order/detail_order_admin_view.dart';
+import 'package:kopiek_resto/presentation/views/admin/profil_restoran.dart';
 import 'package:kopiek_resto/presentation/views/admin/voucher/tambah_voucher_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/detail_order_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/order_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/purchase_order_view.dart';
 import 'package:kopiek_resto/presentation/views/client/order/web_payment_view.dart';
 import 'package:kopiek_resto/presentation/views/client/poin/poin_view.dart';
+import 'package:kopiek_resto/presentation/views/client/profil_resto_view.dart';
+import 'package:kopiek_resto/presentation/views/client/redeem_voucher_view.dart';
 import 'package:kopiek_resto/presentation/views/home_client.dart';
 import 'package:kopiek_resto/presentation/views/login_view.dart';
 import 'package:kopiek_resto/presentation/views/register.dart';
@@ -51,6 +58,16 @@ class AppRouter{
         return MaterialPageRoute(builder: (_)=> const NotificationView());
       case RouteList.jadwalRestoran:
         return MaterialPageRoute(builder: (_)=> const JadwalRestoranView());
+      case RouteList.ubahMenu:
+        return MaterialPageRoute(builder: (_)=>  UpdateMenuView(menu: settings.arguments! as DataMenu));
+      case RouteList.ubahVoucher:
+        return MaterialPageRoute(builder: (_)=>  UpdateVoucherView(voucher: settings.arguments! as DataVoucher));
+      case RouteList.redeemVoucher:
+        return MaterialPageRoute(builder: (_)=> const RedeemVoucherView());
+      case RouteList.ubahProfilResto:
+        return MaterialPageRoute(builder: (_)=> const UbahProfilRestoranView());
+      case RouteList.lihatProfilResto:
+        return MaterialPageRoute(builder: (_)=> const ProfilRestoranView());
       case RouteList.checkout:
         Map data = settings.arguments as Map;
         return MaterialPageRoute(builder: (_)=> PurchaseOrderView(makanan: data['makanan'],minuman: data['minuman'],orderParams: data['order'],));

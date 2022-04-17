@@ -68,5 +68,6 @@ class DataVoucher {
     "diskon": diskon,
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
+    'is_active':isActive
   };
 }

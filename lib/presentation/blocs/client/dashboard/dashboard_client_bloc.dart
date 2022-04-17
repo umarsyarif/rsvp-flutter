@@ -29,7 +29,7 @@ class DashboardClientBloc extends Bloc<DashboardClientEvent, DashboardClientStat
       if(eithNotif.isLeft()){
         emit(const DashboardClientFailure('Terjadi kesalahan'));
       }else {
-        final notif = eithNotif.toOption().toNullable()!.length;
+        final notif = eithNotif.toOption().toNullable()!.where((element) => element.seen==0).length;
         eith.fold((l) => emit(DashboardClientFailure(l.message)),
             (r) => emit(DashboardClientLoaded(r,userData,notif)));
       }

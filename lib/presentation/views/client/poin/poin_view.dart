@@ -55,19 +55,41 @@ class _PoinViewState extends State<PoinView> {
               },);
             }
             else if (state is RiwayatPoinLoaded){
-              return Padding(
-                padding: const EdgeInsets.all(10),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.data.length,
-                  itemBuilder: (context,index){
-                    DataRiwayatPoin data = state.data[index];
-                    return ListTile(
-                      leading: const Icon(Icons.paid),
-                      title: Text(valueRupiah(data.nominal),style: data.tipe=='plus'?greenTextStyle:redTextStyle,),
-                      subtitle: Text(convertDateTime(data.createdAt.toLocal()),style: greyTextStyle,),
-                    );
-                  },
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.all(10),
+                        decoration:BoxDecoration(
+                          color: Colors.yellow[900],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.info,color: Colors.white,),
+                            hSpace(10),
+                            Text('1 Poin senilai dengan ${valueRupiah(10000)}\nTotal poin anda : ${state.poin} (${valueRupiah(state.poin*10000)})',style: whiteTextStyle.copyWith(fontWeight: FontWeight.bold),)
+                          ],
+                        ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.data.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context,index){
+                          DataRiwayatPoin data = state.data[index];
+                          return ListTile(
+                            leading: const Icon(Icons.paid),
+                            title: Text('${data.tipe=='plus'?'+':'-'} ${valueRupiah(data.nominal)}',style: data.tipe=='plus'?greenTextStyle:redTextStyle,),
+                            subtitle: Text(convertDateTime(data.createdAt.toLocal()),style: greyTextStyle,),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             }

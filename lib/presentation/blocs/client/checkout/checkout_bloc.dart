@@ -10,6 +10,8 @@ import 'package:kopiek_resto/data/models/voucher_model.dart';
 import 'package:kopiek_resto/domain/entities/no_params.dart';
 import 'package:kopiek_resto/domain/entities/pucrhase_order_params.dart';
 import 'package:kopiek_resto/domain/usecases/auth/get_detail_user.dart';
+import 'package:kopiek_resto/domain/usecases/auth/get_redeemed_voucher.dart';
+import 'package:kopiek_resto/domain/usecases/client/get_user_poin.dart';
 import 'package:kopiek_resto/domain/usecases/data-master/get_all_voucher.dart';
 import 'package:kopiek_resto/domain/usecases/order/post_order.dart';
 import 'package:kopiek_resto/presentation/blocs/loading/loading_bloc.dart';
@@ -23,14 +25,29 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   final GetAllVoucher voucher;
   final LoadingBloc _loadingBloc;
   final GetDetailUser user;
-  CheckoutBloc(this.order, this._loadingBloc, this.voucher, this.user) : super(CheckoutInitial()) {
+  final GetUserPoin userPoin;
+  final GetRedeemedVoucher redeemedVoucher;
+  CheckoutBloc(this.order, this._loadingBloc, this.voucher, this.user, this.userPoin, this.redeemedVoucher) : super(CheckoutInitial()) {
     on<FetchChekcoutEvent>((event,emit)async{
       emit(CheckoutLoading());
       final eithUser = await user.call(NoParams());
       late User userData;
       eithUser.fold((l) => null, (r) => userData=r);
-      final eith = await voucher.call('');
-      eith.fold((l) => emit(CheckoutFailure(l.message)), (r) => emit(CheckoutLoaded(r, Status.loaded,userData)));
+      final eithPoin = await userPoin.call(userData.id);
+      if(eithPoin.isLeft()){
+        eithPoin.fold((l) => emit(CheckoutFailure(l.message)), (r) => null);
+      }else {
+        int poin = eithPoin.toOption().toNullable()!;
+        final eith = await voucher.call('1');
+        final eithVoucher = await redeemedVoucher.call(NoParams());
+        int? id = eithVoucher.toOption().toNullable()?.id;
+        eith.fold((l) => emit(CheckoutFailure(l.message)), (r){
+          if(id!=null&&r.indexWhere((element) => element.id==id)==-1){
+            id = null;
+          }
+          emit(CheckoutLoaded(r, Status.loaded, userData,poin,idVoucher: id));
+        });
+      }
     });
     on<PostCheckout>((event, emit) async{
       final currentState = state;

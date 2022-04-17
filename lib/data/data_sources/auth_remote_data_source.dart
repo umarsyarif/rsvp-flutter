@@ -7,6 +7,7 @@ abstract class AuthRemoteDataSource{
   Future<LoginModel> login(Map<String,dynamic> body);
   Future<bool> register(Map<String,dynamic> data);
   Future<NotifikasiModel> getNotifikasiUser(int params);
+  Future<int> getUserPoin(int params);
 }
 @LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
@@ -31,5 +32,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
     final res = await _client.get('/user/notifikasi/$params');
     NotifikasiModel notifikasiModel = NotifikasiModel.fromJson(res);
     return notifikasiModel;
+  }
+
+  @override
+  Future<int> getUserPoin(int params) async {
+    final res = await _client.get('/user/poin/$params');
+    return res['data'];
   }
 }

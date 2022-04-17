@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopiek_resto/common/constants/route_list.dart';
@@ -8,6 +9,7 @@ import 'package:kopiek_resto/di/get_it.dart';
 import 'package:kopiek_resto/presentation/blocs/client/dashboard/dashboard_client_bloc.dart';
 import 'package:kopiek_resto/presentation/theme/theme.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
+import 'package:kopiek_resto/presentation/widgets/dialog_gambar.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
 
 class DashboardClient extends StatefulWidget {
@@ -92,7 +94,9 @@ class _DashboardClientState extends State<DashboardClient> {
                                       ),
                                     ),
                                     InkWell(
-
+                                      onTap: (){
+                                        Navigator.pushNamed(context, RouteList.redeemVoucher);
+                                      },
                                       child: Column(
                                         children: [
                                           Icon(Icons.receipt),
@@ -121,28 +125,26 @@ class _DashboardClientState extends State<DashboardClient> {
                         ),
                         Text('Promo',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 16),),
                         vSpace(10),
-                        ListView.builder(
+                        CarouselSlider.builder(
                           itemCount: state.data.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context,index){
+                          itemBuilder: (context,index,j){
                             DataVoucher data = state.data[index];
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(borderRadius: BorderRadius.circular(20),child: Image.network(data.foto),),
-                                vSpace(10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(data.label,style: greyTextStyle,),
-                                    Text(valueRupiah(data.diskon),style: blackTextStyle,)
-                                  ],
-                                ),
-                                const Divider(thickness: 1,),
-                              ],
+                            return InkWell(
+                              onTap: (){
+                                showGambar(context, data.foto);
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.network(data.foto,fit: BoxFit.fill,),
+                              ),
                             );
                           },
-                        )
+                          options: CarouselOptions(
+                              aspectRatio: 2,
+                              viewportFraction: 1,
+                            autoPlay: true
+                          ),
+                        ),
                       ],
                     ),
                   ),

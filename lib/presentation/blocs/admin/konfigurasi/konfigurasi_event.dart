@@ -13,3 +13,9 @@ class UbahKonfigurasiEvent extends KonfigurasiEvent{
 
   const UbahKonfigurasiEvent(this.jamBuka, this.jamTutup);
 }
+class UbahProfilRestoranEvent extends KonfigurasiEvent{
+  final String profil;
+  final String linkGmaps;
+
+  UbahProfilRestoranEvent(this.profil, this.linkGmaps);
+}

@@ -18,7 +18,7 @@ class ApiClient {
 
   dynamic requestInterceptor(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    debugPrint(options.path);
+    // debugPrint(options.path);
     if (!options.path.contains('login')||!options.path.contains('register')) {
       //remove the auxiliary header
       options.headers.remove("requiresToken");
