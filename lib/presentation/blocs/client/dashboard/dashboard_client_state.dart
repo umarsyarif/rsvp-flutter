@@ -16,8 +16,9 @@ class DashboardClientLoaded extends DashboardClientState {
   final List<DataVoucher> data;
   final User user;
   final int notifikasi;
-
-  const DashboardClientLoaded(this.data, this.user, this.notifikasi);
+  final List<DataMenu> makanan;
+  final List<DataMenu> minuman;
+  const DashboardClientLoaded(this.data, this.user, this.notifikasi, this.makanan, this.minuman);
 }
 class DashboardClientFailure extends DashboardClientState {
   final String message;

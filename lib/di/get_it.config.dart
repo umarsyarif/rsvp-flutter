@@ -202,7 +202,8 @@ _i1.GetIt $initDi(_i1.GetIt get,
   gh.factory<_i57.DashboardClientBloc>(() => _i57.DashboardClientBloc(
       get<_i31.GetAllVoucher>(),
       get<_i9.GetDetailUser>(),
-      get<_i10.GetNotifikasiUser>()));
+      get<_i10.GetNotifikasiUser>(),
+      get<_i34.GetMenu>()));
   gh.factory<_i58.KonfigurasiBloc>(() => _i58.KonfigurasiBloc(
       get<_i33.GetKonfigurasi>(),
       get<_i15.Logout>(),

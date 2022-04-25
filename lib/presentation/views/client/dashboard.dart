@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopiek_resto/common/constants/route_list.dart';
 import 'package:kopiek_resto/common/utils/string_helper.dart';
+import 'package:kopiek_resto/data/models/menu_model.dart';
 import 'package:kopiek_resto/data/models/voucher_model.dart';
 import 'package:kopiek_resto/di/get_it.dart';
 import 'package:kopiek_resto/presentation/blocs/client/dashboard/dashboard_client_bloc.dart';
 import 'package:kopiek_resto/presentation/theme/theme.dart';
+import 'package:kopiek_resto/presentation/views/admin/dashboard_admin_view.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
 import 'package:kopiek_resto/presentation/widgets/dialog_gambar.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
@@ -144,6 +146,41 @@ class _DashboardClientState extends State<DashboardClient> {
                               viewportFraction: 1,
                             autoPlay: true
                           ),
+                        ),
+                        Text('MAKANAN',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 16),),
+                        const SizedBox(height: 10,),
+                        GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.makanan.length,
+                          shrinkWrap: true,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 1.5,
+                              mainAxisSpacing: 5,
+                              crossAxisSpacing: 5
+                          ),
+                          itemBuilder: (context,index){
+                            DataMenu menu = state.makanan[index];
+                            return MenuCard(menu: menu);
+                          },
+                        ),
+                        const Divider(thickness: 2,),
+                        Text('MINUMAN',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 16),),
+                        const SizedBox(height: 10,),
+                        GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.minuman.length,
+                          shrinkWrap: true,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 1.5,
+                              mainAxisSpacing: 5,
+                              crossAxisSpacing: 5
+                          ),
+                          itemBuilder: (context,index){
+                            DataMenu menu = state.minuman[index];
+                            return MenuCard(menu: menu);
+                          },
                         ),
                       ],
                     ),
