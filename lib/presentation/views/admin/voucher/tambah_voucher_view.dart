@@ -76,10 +76,11 @@ class _TambahVoucherViewState extends State<TambahVoucherView> {
                     TextFormField(
                       keyboardType: TextInputType.number,
                       controller: diskon,
-                      decoration: inputDecoration.copyWith(hintText: 'Diskon (dalam rupiah)'),
+                      decoration: inputDecoration.copyWith(hintText: 'Diskon '
+                          '(dalam persen)'),
+                      maxLength: 2,
                       inputFormatters:  [
                         FilteringTextInputFormatter.digitsOnly,
-                        CurrencyInputFormatter()
                       ],
                       validator: (value) =>
                           FormValidation.validate(value.toString(), label: 'Harga'),
@@ -147,7 +148,7 @@ class _TambahVoucherViewState extends State<TambahVoucherView> {
                           EasyLoading.showError('Foto belum ditambahkan');
                         }
                         else if(_form.currentState?.validate()??false){
-                          _voucherBloc.add(CreateVoucherEvent(VoucherParams(label.text,foto,int.parse(valueNoRp(diskon.text)))));
+                          _voucherBloc.add(CreateVoucherEvent(VoucherParams(label.text,foto,int.parse(diskon.text))));
                         }
                       },
                       label: 'Tambah',

@@ -77,6 +77,8 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                 Navigator.pushNamed(context, RouteList.makePayment,arguments: state.id).then((value){
                   Navigator.pushNamedAndRemoveUntil(context, RouteList.homeClient, (route) => false);
                 });
+              }else if(state.status ==  Status.fromVoucher){
+                idVoucher = state.idVoucher?.toString();
               }
             }
           },
@@ -88,7 +90,6 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                 _checkoutBloc.add(FetchChekcoutEvent());
               });
             }else if(state is CheckoutLoaded){
-              idVoucher = state.idVoucher?.toString();
               return SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: Stack(
@@ -204,11 +205,16 @@ class _PurchaseOrderViewState extends State<PurchaseOrderView> {
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   child: DropdownButtonFormField<String>(
-                                    items: state.data.map((e) => DropdownMenuItem(child: Text('${e.label} - ${valueRupiah(e.diskon)}'),value: e.id.toString(),)).toList(),
+                                    items: state.data.map((e) =>
+                                        DropdownMenuItem(child: Text('${e
+                                            .label} - ${e.diskon}%'),value: e
+                                            .id.toString(),)).toList(),
                                     value: idVoucher,
                                     onChanged: (value){
                                       idVoucher = value;
-                                      diskon = state.data.where((element) => element.id.toString()==value).first.diskon;
+                                      diskon = ((state.data.where((element) =>
+                                      element.id.toString()==value).first
+                                          .diskon*totalBayar)/100).floor();
                                       setState(() {
 
                                       });

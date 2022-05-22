@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -11,6 +12,7 @@ import 'package:kopiek_resto/presentation/theme/theme.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
 import 'package:kopiek_resto/presentation/widgets/custom_flat_button.dart';
+import 'package:kopiek_resto/presentation/widgets/custom_outline_button.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
 import 'package:kopiek_resto/presentation/widgets/text_fied_widget.dart';
 
@@ -73,19 +75,39 @@ class _ProfilRestoranViewState extends State<ProfilRestoranView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(state.data.profil,style: blackTextStyle,textAlign: TextAlign.justify,),
-                      ActionChip(label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.location_on,color: AppColor.primary,),
-                          hSpace(8),
-                          Text('Lihat di gooogle maps',style: primaryTextStyle,),
-                        ],
-                      ), onPressed: (){
+                      vSpace(10),
+                      Text('Suasana dan Makanan',style: blackTextStyle.copyWith(fontWeight: bold,fontSize: 16),),
+                      vSpace(10),
+                      CarouselSlider.builder(
+                        itemCount: 5,
+                        itemBuilder: (context,index,j){
+                          return Image.asset('assets/aset-${index+1}.jpg',fit: BoxFit.cover,);
+                        },
+                        options: CarouselOptions(
+                            aspectRatio: 2,
+                            viewportFraction: 1,
+                            autoPlay: true
+                        ),
+                      ),
+                      vSpace(10),
+                      CustomOutlineButton(borderColor: AppColor.primary, label: 'Lihat di google maps', onPressed: (){
                         launchUrl(state.data.linkGmaps);
-                      },
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: AppColor.primary),
-                      )
+                      }),
+                      vSpace(10),
+                      Row(
+                        children: [
+                          Icon(Icons.place),
+                          hSpace(10),
+                          Expanded(child: Text('Jl. Raya Pekanbaru - Bangkinang, Koto Perambahan, Kec. Kampar Tim., Kabupaten Kampar, Riau 28458',style: blackTextStyle,)),
+                        ],
+                      ),
+                      // Row(
+                      //   children: [
+                      //     Icon(Icons.phone),
+                      //     hSpace(10),
+                      //     Expanded(child: Text('082283832',style: blackTextStyle,)),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),

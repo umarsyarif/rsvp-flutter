@@ -1,1 +1,1 @@
-enum Status {loading,failure, success, loaded}
+enum Status {loading,failure, success, loaded, fromVoucher}

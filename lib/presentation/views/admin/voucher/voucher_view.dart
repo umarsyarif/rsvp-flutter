@@ -85,7 +85,7 @@ class _VoucherViewState extends State<VoucherView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(data.label,style: greyTextStyle,),
-                                Text(valueRupiah(data.diskon),style: blackTextStyle,),
+                                Text('${data.diskon}%',style: blackTextStyle,),
                                 ActionChip(label:  Text('Ubah Vuucher',style: whiteTextStyle,), onPressed: (){
                                   Navigator.pushNamed(context, RouteList.ubahVoucher,arguments: data);
                                 },

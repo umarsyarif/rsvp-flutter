@@ -22,3 +22,8 @@ class UpdateStatusOrderEvent extends OrderEvent{
 
   const UpdateStatusOrderEvent(this.params);
 }
+class PostRatingEvent extends OrderEvent{
+  final RatingParams params;
+
+  const PostRatingEvent(this.params);
+}

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,6 @@ import 'package:kopiek_resto/presentation/blocs/loading/loading_bloc.dart';
 import 'package:kopiek_resto/presentation/routes.dart';
 import 'package:kopiek_resto/presentation/theme/theme_color.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_screen.dart';
-import 'package:kopiek_resto/presentation/views/login_view.dart';
 import 'package:kopiek_resto/di/get_it.dart' as di;
 import 'package:kopiek_resto/presentation/views/splash_screen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -58,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       value: _loadingBloc,
       child: ScreenUtilInit(
         designSize: const Size(375, 667),
-        builder:()=> MaterialApp(
+        builder:(_)=> MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Kopiek Resto',
           theme: ThemeData(

@@ -45,7 +45,15 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
           if(id!=null&&r.indexWhere((element) => element.id==id)==-1){
             id = null;
           }
-          emit(CheckoutLoaded(r, Status.loaded, userData,poin,idVoucher: id));
+          if(id==null){
+            emit(CheckoutLoaded(r, Status.loaded, userData,poin,idVoucher: id));
+          }else{
+            emit(CheckoutLoaded(r, Status.fromVoucher, userData,poin,idVoucher: id));
+            final currentState = state;
+            if(currentState is CheckoutLoaded){
+              emit(currentState.copyWith(status: Status.loaded));
+            }
+          }
         });
       }
     });
@@ -53,6 +61,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       final currentState = state;
       if(currentState is CheckoutLoaded){
         _loadingBloc.add(StartLoading());
+        print(event.params.toJson());
         final eith = await order.call(event.params);
         eith.fold((l) => emit(currentState.copyWith(errMessage:l.message,status: Status.failure)),
             (r) => emit(currentState.copyWith(status: Status.success,id: r)));

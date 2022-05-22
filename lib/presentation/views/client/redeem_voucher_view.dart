@@ -83,7 +83,7 @@ class _RedeemVoucherViewState extends State<RedeemVoucherView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(data.label,style: greyTextStyle,),
-                                Text(valueRupiah(data.diskon),style: blackTextStyle,),
+                                Text('${data.diskon}%',style: blackTextStyle,),
                                 state.claimed!=null&&state.claimed!.id==data.id?Chip(label:  Text('Dipakai',style: whiteTextStyle,),backgroundColor: AppColor.primary,)
                                     :ActionChip(label: Text('Pakai Voucher',style: primaryTextStyle,), onPressed: (){
                                       _voucherBloc.add(SaveRedeemVoucherEvent(data),

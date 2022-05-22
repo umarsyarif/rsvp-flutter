@@ -211,7 +211,7 @@ class MenuCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        InkWell(child: Image.network(menu.foto),onTap: (){
+        InkWell(child: Image.network(menu.foto,fit: BoxFit.contain,),onTap: (){
           showGambar(context, menu.foto);
         },),
         Container(

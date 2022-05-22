@@ -38,7 +38,7 @@ class _UpdateVoucherViewState extends State<UpdateVoucherView> {
     super.initState();
     _voucherBloc = di<UpdateVoucherBloc>();
     label.text = widget.voucher.label;
-    diskon.text = valueRupiah(widget.voucher.diskon).toString();
+    diskon.text = widget.voucher.diskon.toString();
     foto = widget.voucher.foto;
   }
   @override
@@ -82,11 +82,12 @@ class _UpdateVoucherViewState extends State<UpdateVoucherView> {
                     TextFormField(
                       keyboardType: TextInputType.number,
                       controller: diskon,
-                      decoration: inputDecoration.copyWith(hintText: 'Diskon (dalam rupiah)'),
+                      decoration: inputDecoration.copyWith(hintText: 'Diskon '
+                          '(dalam persen)'),
                       inputFormatters:  [
                         FilteringTextInputFormatter.digitsOnly,
-                        CurrencyInputFormatter()
                       ],
+                      maxLength: 2,
                       validator: (value) =>
                           FormValidation.validate(value.toString(), label: 'Harga'),
                     ),
@@ -153,7 +154,7 @@ class _UpdateVoucherViewState extends State<UpdateVoucherView> {
                           EasyLoading.showError('Foto belum ditambahkan');
                         }
                         else if(_form.currentState?.validate()??false){
-                          _voucherBloc.add(UpdateDataVoucherEvent(VoucherParams(label.text, foto, int.parse(valueNoRp(diskon.text)),id: widget.voucher.id.toString())));
+                          _voucherBloc.add(UpdateDataVoucherEvent(VoucherParams(label.text, foto, int.parse(diskon.text),id: widget.voucher.id.toString())));
                         }
                       },
                       label: 'Ubah',

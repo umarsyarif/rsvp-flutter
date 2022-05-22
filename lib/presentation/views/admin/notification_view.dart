@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kopiek_resto/common/constants/route_list.dart';
+import 'package:kopiek_resto/common/utils/string_helper.dart';
 import 'package:kopiek_resto/di/get_it.dart';
 import 'package:kopiek_resto/presentation/blocs/notifikasi/notifikasi_bloc.dart';
 import 'package:kopiek_resto/presentation/views/loading/loading_circle.dart';
@@ -57,6 +58,7 @@ class _NotificationViewState extends State<NotificationView> {
                     color:e.seen==0?Colors.grey[300]:Colors.white,
                     child: ListTile(
                       title: Text(e.isi),
+                      subtitle: Text(convertDateDMMmYyyy(e.createdAt)),
                       leading: const Icon(Icons.notifications),
                       onTap: (){
                         notifikasiBloc.add(ReadNotifikasi(e.id));

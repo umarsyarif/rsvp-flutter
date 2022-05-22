@@ -91,7 +91,7 @@ class _DashboardClientState extends State<DashboardClient> {
                                         children: [
                                           Icon(Icons.restaurant),
                                           vSpace(10),
-                                          Text('Dine in')
+                                          Text('Reservasi')
                                         ],
                                       ),
                                     ),
@@ -156,8 +156,8 @@ class _DashboardClientState extends State<DashboardClient> {
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               childAspectRatio: 1.5,
-                              mainAxisSpacing: 5,
-                              crossAxisSpacing: 5
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10
                           ),
                           itemBuilder: (context,index){
                             DataMenu menu = state.makanan[index];
@@ -174,8 +174,8 @@ class _DashboardClientState extends State<DashboardClient> {
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               childAspectRatio: 1.5,
-                              mainAxisSpacing: 5,
-                              crossAxisSpacing: 5
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10
                           ),
                           itemBuilder: (context,index){
                             DataMenu menu = state.minuman[index];
