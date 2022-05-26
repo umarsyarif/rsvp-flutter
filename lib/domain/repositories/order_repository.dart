@@ -8,6 +8,8 @@ import 'package:kopiek_resto/domain/entities/pucrhase_order_params.dart';
 import 'package:kopiek_resto/domain/entities/rating_params.dart';
 import 'package:kopiek_resto/domain/entities/update_status_params.dart';
 
+import '../entities/check_seat_params.dart';
+
 abstract class OrderRepository{
   Future<Either<AppError,String>> postOrder(PurchaseOrderParams params);
   Future<Either<AppError,List<DataOrder>>> getAllOrder(ListOrderParams params);
@@ -18,4 +20,5 @@ abstract class OrderRepository{
   Future<Either<AppError,bool>> checkRating(int idUser);
   Future<Either<AppError,bool>> postRating(RatingParams params);
   Future<Either<AppError,List<DataRating>>> getAllRating();
+  Future<Either<AppError,bool>> checkSeat(CheckSeatParams params);
 }

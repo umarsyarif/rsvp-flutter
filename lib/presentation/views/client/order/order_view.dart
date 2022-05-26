@@ -60,6 +60,14 @@ class _OrderViewState extends State<OrderView> {
                 _konfigurasiBloc.add(FetchKonfigurasiEvent());
               },);
             }else if(state is KonfigurasiLoaded){
+              jumlahPelaggan.addListener(() {
+                _konfigurasiBloc.add(CheckSeatEvent(tanggal.text,
+                    jumlahPelaggan.text));
+              });
+              tanggal.addListener(() {
+                _konfigurasiBloc.add(CheckSeatEvent(tanggal.text,
+                    jumlahPelaggan.text));
+              });
               return  SingleChildScrollView(
                   child: Container(
                     padding: const EdgeInsets.all(16),
@@ -108,6 +116,31 @@ class _OrderViewState extends State<OrderView> {
                               });
                             }
                           ),
+                          state.seatCapacity==SeatCapacity.full?Column(
+                            children: [
+                              vSpace(10),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: const EdgeInsets.all(10),
+                                decoration:BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.info,color: Colors.white,),
+                                    hSpace(10),
+                                    Expanded(
+                                      child: Text('Maaf, restoran kami sedang penuh. '
+                                          'Silahkan pilih tanggal lainnya',
+                                        style:
+                                      whiteTextStyle.copyWith(fontWeight: FontWeight.bold),),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ):const SizedBox.shrink(),
                           vSpace(10),
                           TextFieldWidget(
                             hintText: 'Jam',
@@ -138,7 +171,12 @@ class _OrderViewState extends State<OrderView> {
                           ),
                           vSpace(20),
                           CustomFlatButton(backgroundColor: AppColor.primary, label: 'SIMPAN', onPressed: (){
-                            if(_form.currentState?.validate()??false){
+                            if(state.seatCapacity==SeatCapacity.full){
+                              EasyLoading.showError('Maaf, restoran kami '
+                                  'sedang penuh');
+                            }
+                            else if(_form.currentState?.validate()
+                                ??false){
                                   Navigator.pushNamed(context, RouteList.detailOrder,
                                       arguments: OrderParams(widget.jenis, tanggal.text,
                                           jam.text, int.parse(jumlahPelaggan.text)));

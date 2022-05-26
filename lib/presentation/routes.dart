@@ -9,6 +9,7 @@ import 'package:kopiek_resto/presentation/views/admin/data-master/update_menu_vi
 import 'package:kopiek_resto/presentation/views/admin/data-master/update_voucher_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/home.dart';
 import 'package:kopiek_resto/presentation/views/admin/jadwal_restoran.dart';
+import 'package:kopiek_resto/presentation/views/admin/kapasitas_restoran.dart';
 import 'package:kopiek_resto/presentation/views/admin/notification_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/order/detail_order_admin_view.dart';
 import 'package:kopiek_resto/presentation/views/admin/profil_restoran.dart';
@@ -68,6 +69,8 @@ class AppRouter{
         return MaterialPageRoute(builder: (_)=> const UbahProfilRestoranView());
       case RouteList.lihatProfilResto:
         return MaterialPageRoute(builder: (_)=> const ProfilRestoranView());
+      case RouteList.ubahKapasitasRestoran:
+        return MaterialPageRoute(builder: (_)=> const KapasitasRestoranView());
       case RouteList.checkout:
         Map data = settings.arguments as Map;
         return MaterialPageRoute(builder: (_)=> PurchaseOrderView(makanan: data['makanan'],minuman: data['minuman'],orderParams: data['order'],));

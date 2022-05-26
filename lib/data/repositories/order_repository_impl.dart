@@ -8,6 +8,7 @@ import 'package:kopiek_resto/data/models/order_model.dart';
 import 'package:kopiek_resto/data/models/rating_model.dart';
 import 'package:kopiek_resto/data/models/riwayat_poin_model.dart';
 import 'package:kopiek_resto/domain/entities/app_error.dart';
+import 'package:kopiek_resto/domain/entities/check_seat_params.dart';
 import 'package:kopiek_resto/domain/entities/list_order_params.dart';
 import 'package:kopiek_resto/domain/entities/pucrhase_order_params.dart';
 import 'package:kopiek_resto/domain/entities/rating_params.dart';
@@ -200,6 +201,28 @@ class OrderRepositoryImpl implements OrderRepository{
     try {
       final model = await _dataSource.getAllRating();
       return  Right(model.data);
+    } on SocketException {
+      return const Left(AppError(AppErrorType.network,
+          message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.receiveTimeout ||
+          e.type == DioErrorType.sendTimeout) {
+        return const Left(AppError(AppErrorType.network,
+            message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));
+      }
+      return Left(
+          AppError(AppErrorType.api, message: e.response?.data['message'] ?? 'Terjadi kesalahan server'));
+    } on Exception {
+      return const Left(AppError(AppErrorType.api, message: 'Terjadi kesalahan server'));
+    }
+  }
+
+  @override
+  Future<Either<AppError, bool>> checkSeat(CheckSeatParams params)async {
+    try {
+      final model = await _dataSource.checkSeat(params.json);
+      return  Right(model);
     } on SocketException {
       return const Left(AppError(AppErrorType.network,
           message: 'Gagal menghubungkan ke server, cek koneksi internet anda'));

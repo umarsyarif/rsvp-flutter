@@ -22,4 +22,6 @@ class RouteList{
   static const String redeemVoucher = '/voucher/redeem';
   static const String ubahProfilResto = 'profil/resto/ubah';
   static const String lihatProfilResto = '/profil/resto/lihat';
+  static const String ubahKapasitasRestoran = '/konfigurasi/ubah-kapasitas-re'
+      'storan';
 }

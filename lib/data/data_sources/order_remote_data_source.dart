@@ -17,6 +17,7 @@ abstract class OrderRemoteDataSource{
   Future<bool> checkRating(int id);
   Future<bool> postRating(Map<String,dynamic>body);
   Future<RatingModel> getAllRating();
+  Future<bool> checkSeat(Map<String,dynamic>body);
 }
 @LazySingleton(as: OrderRemoteDataSource)
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource{
@@ -79,5 +80,11 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource{
     final res = await _client.get('/rating');
     RatingModel ratingModel = RatingModel.fromJson(res);
     return ratingModel;
+  }
+
+  @override
+  Future<bool> checkSeat(Map<String, dynamic> body) async {
+    final res = await _client.post('/order/check-seat', body);
+    return res['success'];
   }
 }

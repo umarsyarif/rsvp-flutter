@@ -17,5 +17,16 @@ class UbahProfilRestoranEvent extends KonfigurasiEvent{
   final String profil;
   final String linkGmaps;
 
-  UbahProfilRestoranEvent(this.profil, this.linkGmaps);
+  const UbahProfilRestoranEvent(this.profil, this.linkGmaps);
+}
+class UbahKapasitasRestoranEvent extends KonfigurasiEvent{
+  final int kapasitasRestoran;
+
+  const UbahKapasitasRestoranEvent(this.kapasitasRestoran);
+}
+class CheckSeatEvent extends KonfigurasiEvent{
+  final String date;
+  final String jumlahOrang;
+
+  const CheckSeatEvent(this.date, this.jumlahOrang);
 }

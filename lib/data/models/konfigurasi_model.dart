@@ -39,6 +39,7 @@ class DataKonfigurasi {
     required this.tutup,
     required this.profil,
     required this.linkGmaps,
+    required this.jumlahKursi,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -48,6 +49,7 @@ class DataKonfigurasi {
   String tutup;
   String profil;
   String linkGmaps;
+  int jumlahKursi;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -57,6 +59,7 @@ class DataKonfigurasi {
     tutup: json["tutup"],
     profil: json['profil'],
     linkGmaps: json['link_gmaps'],
+    jumlahKursi: json['jumlah_kursi'],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );

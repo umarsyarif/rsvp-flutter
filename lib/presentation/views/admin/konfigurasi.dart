@@ -86,6 +86,15 @@ class _KonfigurasiViewState extends State<KonfigurasiView> {
                         },
                       ),
                       ListTile(
+                        leading: CircleAvatar(child: Icon(Icons.event_seat,color:
+                        Colors.white,),backgroundColor: AppColor.primary,),
+                        title: Text('Kapasitas Restoran'),
+                        trailing: Icon(Icons.arrow_forward_ios),
+                        onTap: (){
+                          Navigator.pushNamed(context, RouteList.ubahKapasitasRestoran);
+                        },
+                      ),
+                      ListTile(
                         leading: const CircleAvatar(child: Icon(Icons.logout,color: Colors.white,),backgroundColor: AppColor.primary,),
                         title: Text('Logout',style: blackTextStyle.copyWith(fontWeight: bold),),
                         onTap: (){

@@ -13,16 +13,16 @@ import 'package:kopiek_resto/presentation/widgets/custom_flat_button.dart';
 import 'package:kopiek_resto/presentation/widgets/errror_page.dart';
 import 'package:kopiek_resto/presentation/widgets/text_fied_widget.dart';
 
-class UbahProfilRestoranView extends StatefulWidget {
-  const UbahProfilRestoranView({Key? key}) : super(key: key);
+class KapasitasRestoranView extends StatefulWidget {
+  const KapasitasRestoranView({Key? key}) : super(key: key);
 
   @override
-  _UbahProfilRestoranViewState createState() => _UbahProfilRestoranViewState();
+  _KapasitasRestoranViewState createState() => _KapasitasRestoranViewState();
 }
 
-class _UbahProfilRestoranViewState extends State<UbahProfilRestoranView> {
+class _KapasitasRestoranViewState extends State<KapasitasRestoranView> {
   late KonfigurasiBloc _konfigurasiBloc;
-  late TextEditingController profil,linkGmaps;
+  late TextEditingController kapasitasRestoran;
   final _form = GlobalKey<FormState>();
 
   @override
@@ -30,16 +30,14 @@ class _UbahProfilRestoranViewState extends State<UbahProfilRestoranView> {
     super.initState();
     _konfigurasiBloc = di<KonfigurasiBloc>();
     _konfigurasiBloc.add(FetchKonfigurasiEvent());
-    profil = TextEditingController();
-    linkGmaps = TextEditingController();
+    kapasitasRestoran = TextEditingController();
   }
 
   @override
   void dispose() {
     super.dispose();
     _konfigurasiBloc.close();
-    profil.dispose();
-    linkGmaps.dispose();
+    kapasitasRestoran.dispose();
   }
 
   @override
@@ -70,8 +68,7 @@ class _UbahProfilRestoranViewState extends State<UbahProfilRestoranView> {
                 _konfigurasiBloc.add(FetchKonfigurasiEvent());
               },);
             }else if(state is KonfigurasiLoaded){
-              profil.text = state.data.profil;
-              linkGmaps.text = state.data.linkGmaps;
+              kapasitasRestoran.text = state.data.jumlahKursi.toString();
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -80,29 +77,22 @@ class _UbahProfilRestoranViewState extends State<UbahProfilRestoranView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Profil'),
+                        Text('Kapasitas Restoran'),
                         vSpace(5),
                         TextFieldWidget(
-                          hintText: 'Profil',
-                          maxLines: 10,
-                          controller: profil,
-                          validator: (val)=>FormValidation.validate(val??'',label: 'Profil'),
+                          hintText: 'Kapasitas Restoran',
+                          typeInput: TextInputType.number,
+                          controller: kapasitasRestoran,
+                          validator: (val)=>FormValidation.validate(val??'',
+                              label: 'Kapasitas Restoran'),
                         ),
                         vSpace(10),
-                        Text('Link Google Maps'),
-                        vSpace(5),
-                        TextFieldWidget(
-                            hintText: 'Link Google Maps',
-                            controller: linkGmaps,
-                          validator: (val)=>FormValidation.validate(val??'',label: 'Link Google Maps'),
-                        ),
                         vSpace(20),
                         CustomFlatButton(backgroundColor: AppColor.primary, label: 'SIMPAN', onPressed: (){
                           if(_form.currentState?.validate()??false){
-                              _konfigurasiBloc.add(UbahProfilRestoranEvent(
-                                  profil.text, linkGmaps.text));
-                            }
-                          },
+                            _konfigurasiBloc.add(UbahKapasitasRestoranEvent(int.parse(kapasitasRestoran.text)));
+                          }
+                        },
                         ),
                       ],
                     ),
